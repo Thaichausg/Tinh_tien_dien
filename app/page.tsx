@@ -506,13 +506,30 @@ export default function ElectricitySplitter() {
                     <tr className="hover:bg-slate-800/20 transition-colors">
                       <td className="py-4 px-6 sm:px-4 flex items-center gap-2">
                         <span className="w-2.5 h-2.5 rounded-full bg-teal-500 shadow-md shadow-teal-500/20"></span>
-                        <span className="font-bold text-slate-200">Hộ Trệt</span>
+                        <div>
+                          <span className="font-bold text-slate-200">Hộ Trệt</span>
+                          {results.lossKwh > 0 && (
+                            <span className="block text-[10px] text-slate-500 font-medium">
+                              Bao gồm hao hụt & lệch bậc
+                            </span>
+                          )}
+                        </div>
                       </td>
                       <td className="py-4 px-4 text-center font-semibold font-mono text-slate-200">
-                        {kwhTret}
+                        <div>{kwhTret}</div>
+                        {results.lossKwh > 0 && (
+                          <div className="text-[10px] text-teal-400 font-normal">
+                            +{results.households[0].lossKwhShare.toFixed(1)} kWh
+                          </div>
+                        )}
                       </td>
                       <td className="py-4 px-4 text-right text-slate-300 font-mono">
-                        {formatVND(results.households[0].allocatedBeforeVat)}
+                        <div>{formatVND(results.households[0].allocatedBeforeVat)}</div>
+                        {results.lossKwh > 0 && (
+                          <div className="text-[10px] text-slate-500 font-normal">
+                            Dùng: {formatVND(results.households[0].rawCostBeforeVat)} | Gánh: +{formatVND(results.households[0].lossCostShareBeforeVat)}
+                          </div>
+                        )}
                       </td>
                       <td className="py-4 px-4 text-right text-slate-400 font-mono">
                         {formatVND(results.households[0].allocatedVat)}
@@ -526,13 +543,30 @@ export default function ElectricitySplitter() {
                     <tr className="hover:bg-slate-800/20 transition-colors">
                       <td className="py-4 px-6 sm:px-4 flex items-center gap-2">
                         <span className="w-2.5 h-2.5 rounded-full bg-violet-500 shadow-md shadow-violet-500/20"></span>
-                        <span className="font-bold text-slate-200">Hộ Lầu</span>
+                        <div>
+                          <span className="font-bold text-slate-200">Hộ Lầu</span>
+                          {results.lossKwh > 0 && (
+                            <span className="block text-[10px] text-slate-500 font-medium">
+                              Bao gồm hao hụt & lệch bậc
+                            </span>
+                          )}
+                        </div>
                       </td>
                       <td className="py-4 px-4 text-center font-semibold font-mono text-slate-200">
-                        {kwhLau}
+                        <div>{kwhLau}</div>
+                        {results.lossKwh > 0 && (
+                          <div className="text-[10px] text-violet-400 font-normal">
+                            +{results.households[1].lossKwhShare.toFixed(1)} kWh
+                          </div>
+                        )}
                       </td>
                       <td className="py-4 px-4 text-right text-slate-300 font-mono">
-                        {formatVND(results.households[1].allocatedBeforeVat)}
+                        <div>{formatVND(results.households[1].allocatedBeforeVat)}</div>
+                        {results.lossKwh > 0 && (
+                          <div className="text-[10px] text-slate-500 font-normal">
+                            Dùng: {formatVND(results.households[1].rawCostBeforeVat)} | Gánh: +{formatVND(results.households[1].lossCostShareBeforeVat)}
+                          </div>
+                        )}
                       </td>
                       <td className="py-4 px-4 text-right text-slate-400 font-mono">
                         {formatVND(results.households[1].allocatedVat)}

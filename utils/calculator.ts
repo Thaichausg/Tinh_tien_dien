@@ -23,6 +23,8 @@ export interface HouseholdDetail {
   allocatedBeforeVat: number; // Final split before VAT
   allocatedVat: number;       // Final split VAT
   averagePricePerKwh: number; // Real average price (allocatedTotal / kwhUsed)
+  lossKwhShare: number;       // Share of physical loss in kWh
+  lossCostShareBeforeVat: number; // Share of loss and tier difference in VND (before VAT)
 }
 
 export interface CalculationResult {
@@ -129,6 +131,11 @@ export function calculateSplit(
 
   // Loss details
   const lossKwh = Math.max(0, effectiveTotalKwh - (kwhTret + kwhLau));
+  const lossKwhTret = lossKwh * (kwhTret / (kwhTret + kwhLau || 1));
+  const lossKwhLau = lossKwh - lossKwhTret;
+
+  const lossCostShareTret = allocatedBeforeVatTret - rawCostTret;
+  const lossCostShareLau = allocatedBeforeVatLau - rawCostLau;
 
   const households: HouseholdDetail[] = [
     {
@@ -139,6 +146,8 @@ export function calculateSplit(
       allocatedBeforeVat: allocatedBeforeVatTret,
       allocatedVat: allocatedVatTret,
       averagePricePerKwh: avgPriceTret,
+      lossKwhShare: lossKwhTret,
+      lossCostShareBeforeVat: lossCostShareTret,
     },
     {
       householdName: "Hộ Lầu",
@@ -148,6 +157,8 @@ export function calculateSplit(
       allocatedBeforeVat: allocatedBeforeVatLau,
       allocatedVat: allocatedVatLau,
       averagePricePerKwh: avgPriceLau,
+      lossKwhShare: lossKwhLau,
+      lossCostShareBeforeVat: lossCostShareLau,
     },
   ];
 
