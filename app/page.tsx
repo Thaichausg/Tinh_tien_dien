@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo, startTransition } from "react";
-import { calculateSplit, formatVND, EVN_TIERS, calculateRawEvnCost } from "../utils/calculator";
+import { calculateSplit, formatVND, EVN_TIERS, calculateRawEvnCost, calculateKwhFromAmount } from "../utils/calculator";
 import { saveBillAction, getBillsAction, deleteBillAction, SaveBillInput } from "./actions";
 
 interface SavedBill {
@@ -28,6 +28,7 @@ export default function ElectricitySplitter() {
   const [totalKwh, setTotalKwh] = useState<number>(871);
   const [kwhTret, setKwhTret] = useState<number>(350);
   const [kwhLau, setKwhLau] = useState<number>(421);
+  const [autoCalcKwh, setAutoCalcKwh] = useState<boolean>(false);
 
   // DB integration state
   const [savedBills, setSavedBills] = useState<SavedBill[]>([]);
@@ -256,14 +257,37 @@ export default function ElectricitySplitter() {
               <div className="space-y-4">
                 {/* Total Invoice Amount */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                    Tổng Tiền Hóa Đơn (gồm VAT)
-                  </label>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                      Tổng Tiền Hóa Đơn (gồm VAT)
+                    </label>
+                    <label className="flex items-center gap-1.5 text-xs font-semibold text-teal-400 cursor-pointer select-none hover:text-teal-300 transition-colors">
+                      <input
+                        type="checkbox"
+                        checked={autoCalcKwh}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          setAutoCalcKwh(checked);
+                          if (checked) {
+                            setTotalKwh(calculateKwhFromAmount(totalAmount));
+                          }
+                        }}
+                        className="rounded border-slate-700 bg-slate-950 text-teal-500 focus:ring-teal-500/20 h-3.5 w-3.5 accent-teal-500 cursor-pointer"
+                      />
+                      Tự tính Số điện tổng
+                    </label>
+                  </div>
                   <div className="relative">
                     <input
                       type="number"
                       value={totalAmount || ""}
-                      onChange={(e) => setTotalAmount(parseInt(e.target.value, 10) || 0)}
+                      onChange={(e) => {
+                        const amt = parseInt(e.target.value, 10) || 0;
+                        setTotalAmount(amt);
+                        if (autoCalcKwh) {
+                          setTotalKwh(calculateKwhFromAmount(amt));
+                        }
+                      }}
                       placeholder="VD: 2920000"
                       className="w-full bg-slate-950 border border-slate-700 rounded-2xl px-4 py-3.5 pl-5 pr-14 text-white text-lg font-bold outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all placeholder:text-slate-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
@@ -276,13 +300,16 @@ export default function ElectricitySplitter() {
                 {/* Total kWh */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                    Tổng Điện Năng Tiêu Thụ (kWh)
+                    Tổng Điện Năng Tiêu Thụ (kWh) {autoCalcKwh && <span className="text-[10px] text-teal-400 font-normal lowercase">(tự động tính từ số tiền)</span>}
                   </label>
                   <div className="relative">
                     <input
                       type="number"
                       value={totalKwh || ""}
-                      onChange={(e) => setTotalKwh(parseFloat(e.target.value) || 0)}
+                      onChange={(e) => {
+                        setTotalKwh(parseFloat(e.target.value) || 0);
+                        setAutoCalcKwh(false); // Turn off auto-calc when manually overridden
+                      }}
                       placeholder="VD: 871"
                       className="w-full bg-slate-950 border border-slate-700 rounded-2xl px-4 py-3.5 pl-5 pr-14 text-white text-lg font-bold outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all placeholder:text-slate-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />

@@ -179,3 +179,38 @@ export function formatVND(amount: number): string {
     currency: "VND",
   }).format(amount);
 }
+
+/**
+ * Calculates the total kWh from the total bill amount including 8% VAT
+ * by inverting the EVN 6-Tier billing formula.
+ */
+export function calculateKwhFromAmount(amountIncludingVat: number): number {
+  if (amountIncludingVat <= 0) return 0;
+  
+  const amountBeforeVat = amountIncludingVat / 1.08;
+
+  // Cumulative tier threshold costs (before VAT)
+  const t1Cost = 50 * 1984;           // 99,200 (for 50 kWh)
+  const t2Cost = t1Cost + 50 * 2050;   // 201,700 (for 100 kWh)
+  const t3Cost = t2Cost + 100 * 2380;  // 439,700 (for 200 kWh)
+  const t4Cost = t3Cost + 100 * 2998;  // 739,500 (for 300 kWh)
+  const t5Cost = t4Cost + 100 * 3350;  // 1,074,500 (for 400 kWh)
+
+  let kwh = 0;
+  if (amountBeforeVat <= t1Cost) {
+    kwh = amountBeforeVat / 1984;
+  } else if (amountBeforeVat <= t2Cost) {
+    kwh = 50 + (amountBeforeVat - t1Cost) / 2050;
+  } else if (amountBeforeVat <= t3Cost) {
+    kwh = 100 + (amountBeforeVat - t2Cost) / 2380;
+  } else if (amountBeforeVat <= t4Cost) {
+    kwh = 200 + (amountBeforeVat - t3Cost) / 2998;
+  } else if (amountBeforeVat <= t5Cost) {
+    kwh = 300 + (amountBeforeVat - t4Cost) / 3350;
+  } else {
+    kwh = 400 + (amountBeforeVat - t5Cost) / 3460;
+  }
+
+  // Round to 1 decimal place
+  return Math.round(kwh * 10) / 10;
+}
