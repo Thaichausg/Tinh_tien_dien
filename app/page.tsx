@@ -98,7 +98,6 @@ export default function ElectricitySplitter() {
   const [savedBills, setSavedBills] = useState<SavedBill[]>([]);
   const [loadingHistory, setLoadingHistory] = useState<boolean>(true);
   const [savingBill, setSavingBill] = useState<boolean>(false);
-  const [saveStatus, setSaveStatus] = useState<{ success?: boolean; message?: string } | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // Perform split calculations reactively on input changes
@@ -132,7 +131,6 @@ export default function ElectricitySplitter() {
       return;
     }
     setSavingBill(true);
-    setSaveStatus(null);
 
     const formattedMonth = formatDateDisplay(month);
     const input: SaveBillInput = {
@@ -145,15 +143,12 @@ export default function ElectricitySplitter() {
 
     const res = await saveBillAction(input);
     if (res.success) {
-      setSaveStatus({ success: true, message: `Lưu hóa đơn tháng ${formattedMonth} thành công!` });
+      triggerToast(`Lưu hóa đơn tháng ${formattedMonth} thành công!`);
       loadBillHistory();
     } else {
-      setSaveStatus({ success: false, message: `Lỗi: ${res.error}` });
+      triggerToast(`Lỗi: ${res.error}`);
     }
     setSavingBill(false);
-
-    // Auto clear status message after 3 seconds
-    setTimeout(() => setSaveStatus(null), 3000);
   };
 
   // Handler to delete a historical bill from DB
@@ -258,26 +253,7 @@ export default function ElectricitySplitter() {
       {/* Main Container */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 py-6 sm:px-6 space-y-6">
         {/* Verification & Self-Test Banner */}
-        {results.selfTest.passed ? (
-          <div className="bg-emerald-500/5 border border-emerald-500/15 rounded-xl p-3 flex items-center justify-between gap-3 text-emerald-400 shadow-sm text-xs sm:text-sm">
-            <div className="flex items-center gap-2">
-              <span className="text-base">✓</span>
-              <div>
-                <p className="font-semibold">
-                  Tổng kiểm tra (Self-Test) hợp lệ
-                </p>
-                <p className="text-[10px] text-emerald-500/70">
-                  Hộ Trệt ({formatVND(results.households[0].allocatedTotal)}) + Hộ Lầu (
-                  {formatVND(results.households[1].allocatedTotal)}) ={" "}
-                  {formatVND(results.selfTest.sumOfHouseholdsTotal)} (Sai số: 0đ)
-                </p>
-              </div>
-            </div>
-            <span className="text-[9px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-400/20 uppercase font-mono tracking-wider font-bold">
-              PASS
-            </span>
-          </div>
-        ) : (
+        {!results.selfTest.passed && (
           <div className="bg-rose-500/5 border border-rose-500/15 rounded-xl p-3 flex items-center justify-between gap-3 text-rose-400 shadow-sm text-xs sm:text-sm">
             <div className="flex items-center gap-2">
               <span className="text-base">⚠️</span>
@@ -299,8 +275,8 @@ export default function ElectricitySplitter() {
 
         {/* 2-Column Responsive Dashboard */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Left Column: Input Forms */}
-          <div className="lg:col-span-5 space-y-5">
+          {/* Left Column: Input Forms & History */}
+          <div className="lg:col-span-4 space-y-5">
             <div className="bg-slate-900/40 border border-slate-850 rounded-xl p-5 shadow-sm">
               
               <div className="flex items-center justify-between mb-4">
@@ -325,80 +301,74 @@ export default function ElectricitySplitter() {
                     type="month"
                     value={month}
                     onChange={(e) => setMonth(e.target.value)}
-                    className="bg-slate-950 border border-slate-850 rounded-md px-2 py-0.5 text-xs text-slate-200 outline-none focus:border-teal-500 transition-colors font-medium"
+                    className="bg-slate-950 border border-slate-850 rounded-md px-2 py-0.5 text-xs text-slate-200 outline-none focus:border-teal-500 transition-colors font-medium cursor-pointer"
                   />
                 </div>
               </div>
 
-              <div className="space-y-3.5">
-                {/* Total Invoice Amount */}
-                <div>
-                  <div className="flex justify-between items-center mb-1.5">
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                      Tổng Tiền Hóa Đơn (gồm VAT)
+              <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-3.5">
+                  {/* Total Invoice Amount */}
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                      Tổng Tiền Gồm VAT
                     </label>
-                    <label className="flex items-center gap-1 text-[10px] font-semibold text-teal-400 cursor-pointer select-none hover:text-teal-300 transition-colors">
+                    <div className="relative">
                       <input
-                        type="checkbox"
-                        checked={autoCalcKwh}
+                        type="number"
+                        value={totalAmount || ""}
                         onChange={(e) => {
-                          const checked = e.target.checked;
-                          setAutoCalcKwh(checked);
-                          if (checked) {
-                            setTotalKwh(calculateKwhFromAmount(totalAmount));
+                          const amt = parseInt(e.target.value, 10) || 0;
+                          setTotalAmount(amt);
+                          if (autoCalcKwh) {
+                            setTotalKwh(calculateKwhFromAmount(amt));
                           }
                         }}
-                        className="rounded border-slate-850 bg-slate-950 text-teal-500 focus:ring-0 h-3 w-3 accent-teal-500 cursor-pointer"
+                        placeholder="VD: 2920493"
+                        className="w-full bg-slate-950 border border-slate-850 hover:border-slate-800 focus:border-teal-500 rounded-lg px-2.5 py-1.5 text-slate-100 text-xs font-semibold outline-none transition-all placeholder:text-slate-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
-                      Tự tính Số điện tổng
-                    </label>
+                    </div>
                   </div>
-                  <div className="relative">
-                    <input
-                      type="number"
-                      value={totalAmount || ""}
-                      onChange={(e) => {
-                        const amt = parseInt(e.target.value, 10) || 0;
-                        setTotalAmount(amt);
-                        if (autoCalcKwh) {
-                          setTotalKwh(calculateKwhFromAmount(amt));
-                        }
-                      }}
-                      placeholder="VD: 2920493"
-                      className="w-full bg-slate-950 border border-slate-850 rounded-lg px-3 py-2 pl-3 pr-12 text-slate-100 text-sm font-semibold outline-none focus:border-teal-500 transition-all placeholder:text-slate-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                    />
-                    <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-505 font-medium text-[11px]">
-                      VND
-                    </span>
-                  </div>
-                </div>
 
-                {/* Total kWh */}
-                <div>
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
-                    Tổng Điện Năng Tiêu Thụ (kWh) {autoCalcKwh && <span className="text-[9px] text-teal-400 font-normal lowercase">(tự động tính)</span>}
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="number"
-                      value={totalKwh || ""}
-                      onChange={(e) => {
-                        setTotalKwh(parseFloat(e.target.value) || 0);
-                        setAutoCalcKwh(false); // Turn off auto-calc when manually overridden
-                      }}
-                      placeholder="VD: 871"
-                      className="w-full bg-slate-950 border border-slate-850 rounded-lg px-3 py-2 pl-3 pr-12 text-slate-100 text-sm font-semibold outline-none focus:border-teal-500 transition-all placeholder:text-slate-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                    />
-                    <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-505 font-medium text-[11px]">
-                      kWh
-                    </span>
+                  {/* Total kWh */}
+                  <div>
+                    <div className="flex justify-between items-center mb-1">
+                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                        Tổng kWh
+                      </label>
+                      <label className="flex items-center gap-0.5 text-[9px] font-semibold text-teal-400 cursor-pointer select-none hover:text-teal-350 transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={autoCalcKwh}
+                          onChange={(e) => {
+                            const checked = e.target.checked;
+                            setAutoCalcKwh(checked);
+                            if (checked) {
+                              setTotalKwh(calculateKwhFromAmount(totalAmount));
+                            }
+                          }}
+                          className="rounded border-slate-850 bg-slate-950 text-teal-500 focus:ring-0 h-2.5 w-2.5 accent-teal-500 cursor-pointer"
+                        />
+                        Tự tính
+                      </label>
+                    </div>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        value={totalKwh || ""}
+                        onChange={(e) => {
+                          setTotalKwh(parseFloat(e.target.value) || 0);
+                          setAutoCalcKwh(false);
+                        }}
+                        placeholder="VD: 871"
+                        className="w-full bg-slate-950 border border-slate-850 hover:border-slate-800 focus:border-teal-500 rounded-lg px-2.5 py-1.5 text-slate-100 text-xs font-semibold outline-none transition-all placeholder:text-slate-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div className="grid grid-cols-2 gap-3.5 border-t border-slate-850 pt-3">
                   {/* Hộ Trệt */}
                   <div>
-                    <label className="block text-[10px] font-bold text-teal-405 uppercase tracking-wider mb-1.5">
+                    <label className="block text-[10px] font-bold text-teal-405 uppercase tracking-wider mb-1">
                       Hộ Trệt (kWh)
                     </label>
                     <input
@@ -406,13 +376,13 @@ export default function ElectricitySplitter() {
                       value={kwhTret || ""}
                       onChange={(e) => setKwhTret(parseFloat(e.target.value) || 0)}
                       placeholder="VD: 350"
-                      className="w-full bg-slate-950 border border-slate-850 hover:border-teal-500/40 focus:border-teal-500 rounded-lg px-3 py-1.5 text-slate-100 text-xs font-semibold outline-none transition-all placeholder:text-slate-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      className="w-full bg-slate-950 border border-slate-850 hover:border-teal-500/40 focus:border-teal-500 rounded-lg px-2.5 py-1.5 text-slate-100 text-xs font-semibold outline-none transition-all placeholder:text-slate-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                   </div>
 
                   {/* Hộ Lầu */}
                   <div>
-                    <label className="block text-[10px] font-bold text-violet-405 uppercase tracking-wider mb-1.5">
+                    <label className="block text-[10px] font-bold text-violet-405 uppercase tracking-wider mb-1">
                       Hộ Lầu (kWh)
                     </label>
                     <input
@@ -420,13 +390,13 @@ export default function ElectricitySplitter() {
                       value={kwhLau || ""}
                       onChange={(e) => setKwhLau(parseFloat(e.target.value) || 0)}
                       placeholder="VD: 421"
-                      className="w-full bg-slate-950 border border-slate-850 hover:border-violet-500/40 focus:border-violet-500 rounded-lg px-3 py-1.5 text-slate-100 text-xs font-semibold outline-none transition-all placeholder:text-slate-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      className="w-full bg-slate-950 border border-slate-850 hover:border-violet-500/40 focus:border-violet-500 rounded-lg px-2.5 py-1.5 text-slate-100 text-xs font-semibold outline-none transition-all placeholder:text-slate-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                   </div>
                 </div>
 
                 {/* Sub-meters vs Main verification indicator */}
-                <div className="bg-slate-950 rounded-lg p-3 border border-slate-850 text-xs space-y-1.5">
+                <div className="bg-slate-950 rounded-lg p-2.5 border border-slate-850 text-xs space-y-1">
                   <div className="flex justify-between">
                     <span className="text-slate-400">Tổng điện năng phụ:</span>
                     <span className="font-semibold text-slate-200">
@@ -444,75 +414,105 @@ export default function ElectricitySplitter() {
                     </span>
                   </div>
                 </div>
-
-                {/* DB actions */}
-                <div className="pt-1.5 space-y-2">
-                  <button
-                    onClick={handleSaveBill}
-                    disabled={savingBill}
-                    className="w-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold py-2 px-4 rounded-lg transition-all active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-1.5 text-xs"
-                  >
-                    {savingBill ? (
-                      <>
-                        <span className="animate-spin text-xs">⏳</span> Đang lưu...
-                      </>
-                    ) : (
-                      <>💾 Lưu Kết Quả Phân Bổ</>
-                    )}
-                  </button>
-                  {saveStatus && (
-                    <div
-                      className={`text-center py-1.5 px-3 rounded-lg text-xs font-semibold border ${
-                        saveStatus.success
-                          ? "bg-emerald-950/20 text-emerald-400 border-emerald-500/20"
-                          : "bg-rose-950/20 text-rose-400 border-rose-500/20"
-                      }`}
-                    >
-                      {saveStatus.message}
-                    </div>
-                  )}
-                </div>
               </div>
             </div>
 
-            {/* EVN Tariff reference panel */}
-            <div className="bg-slate-900/40 border border-slate-850 rounded-xl p-5 shadow-sm">
-              <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider mb-3.5 flex items-center gap-1.5">
-                <span>📋</span> Biểu giá bán lẻ điện sinh hoạt EVN
-              </h3>
-              <div className="space-y-2 font-mono text-xs">
-                {EVN_TIERS.map((tier) => (
-                  <div
-                    key={tier.level}
-                    className="flex justify-between items-center py-1.5 border-b border-slate-850 last:border-0"
-                  >
-                    <span className="text-slate-400">{tier.label}</span>
-                    <span className="font-bold text-teal-405">
-                      {tier.price.toLocaleString("vi-VN")} đ/kWh
-                    </span>
-                  </div>
-                ))}
-                <p className="text-[10px] text-slate-500 italic mt-3 text-center">
-                  * Biểu giá bán lẻ điện theo QĐ số 2941/QĐ-BCT chưa bao gồm thuế VAT (8%).
-                </p>
+            {/* Neon DB Bill History section (Flat) */}
+            <div className="bg-slate-900/40 border border-slate-855 rounded-xl p-5 shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
+                  <span>📂</span> Lịch Sử Lưu Trữ Hóa Đơn
+                </h3>
+                <button
+                  onClick={loadBillHistory}
+                  className="text-xs text-teal-400 hover:text-teal-350 font-semibold flex items-center gap-1 active:scale-[0.98] cursor-pointer"
+                >
+                  🔄 Tải lại
+                </button>
               </div>
+
+              {loadingHistory ? (
+                <div className="py-6 text-center text-slate-500 text-xs">
+                  <span className="animate-spin inline-block mr-1">⏳</span> Đang tải...
+                </div>
+              ) : savedBills.length === 0 ? (
+                <div className="py-6 text-center text-slate-505 text-xs border border-dashed border-slate-855 rounded-lg bg-slate-950/20">
+                  Chưa có hóa đơn nào được lưu.
+                </div>
+              ) : (
+                <div className="space-y-2.5 max-h-[300px] overflow-y-auto pr-1">
+                  {savedBills.map((bill) => {
+                    const tretUsage = bill.usages.find((u) => u.householdName === "Hộ Trệt");
+                    const lauUsage = bill.usages.find((u) => u.householdName === "Hộ Lầu");
+                    return (
+                      <div
+                        key={bill.id}
+                        className="bg-slate-950 p-3 rounded-lg border border-slate-850 flex items-center justify-between gap-3 text-xs sm:text-sm hover:border-slate-805 transition-all group"
+                      >
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-slate-200 text-xs sm:text-sm">
+                              Tháng {bill.month}
+                            </span>
+                            <span className="text-[9px] text-slate-500 font-mono">
+                              ({bill.createdAt.toLocaleDateString("vi-VN")})
+                            </span>
+                          </div>
+                          <div className="text-slate-400 text-[11px] flex flex-wrap gap-x-3 gap-y-0.5">
+                            <span>
+                              Tổng: <strong className="text-slate-350 font-semibold">{bill.totalKwh} kWh</strong> |{" "}
+                              <strong className="text-slate-350 font-semibold">{formatVND(bill.totalAmount)}</strong>
+                            </span>
+                            {tretUsage && (
+                              <span className="text-teal-400/90 font-medium">
+                                Trệt: {tretUsage.kwhUsed} kWh
+                              </span>
+                            )}
+                            {lauUsage && (
+                              <span className="text-violet-400/90 font-medium">
+                                Lầu: {lauUsage.kwhUsed} kWh
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => handleDeleteBill(bill.id, bill.month)}
+                          className="p-1.5 rounded-md text-slate-505 hover:text-rose-450 hover:bg-rose-500/5 transition-all opacity-100 sm:opacity-0 group-hover:opacity-100 cursor-pointer"
+                          title="Xóa hóa đơn này"
+                        >
+                          🗑️
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
 
           {/* Right Column: Calculations & Results */}
-          <div className="lg:col-span-7 space-y-5">
+          <div className="lg:col-span-8 space-y-5">
             {/* Unified Calculation & Audit Table Card (Flat Design) */}
             <div className="bg-slate-900/40 border border-slate-850 rounded-xl p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                 <h2 className="text-sm font-bold text-slate-100 flex items-center gap-1.5">
                   <span>📊</span> Bảng Phân Bổ & Đối Soát Điện Bậc Thang Chi Tiết
                 </h2>
-                <button
-                  onClick={handleCopyZalo}
-                  className="bg-slate-950 hover:bg-slate-850 hover:text-slate-100 text-slate-300 font-medium px-3 py-1.5 rounded-lg text-xs border border-slate-850 transition-all flex items-center gap-1.5 active:scale-[0.98]"
-                >
-                  <span>💬</span> Zalo Copy
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleSaveBill}
+                    disabled={savingBill}
+                    className="bg-teal-500 hover:bg-teal-400 disabled:opacity-50 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs transition-all flex items-center gap-1.5 active:scale-[0.98] cursor-pointer"
+                  >
+                    💾 {savingBill ? "Đang lưu..." : "Lưu Lịch Sử"}
+                  </button>
+                  <button
+                    onClick={handleCopyZalo}
+                    className="bg-slate-950 hover:bg-slate-850 hover:text-slate-100 text-slate-300 font-medium px-3 py-1.5 rounded-lg text-xs border border-slate-850 transition-all flex items-center gap-1.5 active:scale-[0.98] cursor-pointer"
+                  >
+                    <span>💬</span> Zalo Copy
+                  </button>
+                </div>
               </div>
 
               {/* Visual Split Graph */}
@@ -786,78 +786,6 @@ export default function ElectricitySplitter() {
                   </tbody>
                 </table>
               </div>
-            </div>
-
-            {/* Neon DB Bill History section (Flat) */}
-            <div className="bg-slate-900/40 border border-slate-855 rounded-xl p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                  <span>📂</span> Lịch Sử Lưu Trữ Hóa Đơn
-                </h3>
-                <button
-                  onClick={loadBillHistory}
-                  className="text-xs text-teal-400 hover:text-teal-350 font-semibold flex items-center gap-1 active:scale-[0.98]"
-                >
-                  🔄 Tải lại
-                </button>
-              </div>
-
-              {loadingHistory ? (
-                <div className="py-6 text-center text-slate-500 text-xs">
-                  <span className="animate-spin inline-block mr-1">⏳</span> Đang tải...
-                </div>
-              ) : savedBills.length === 0 ? (
-                <div className="py-6 text-center text-slate-505 text-xs border border-dashed border-slate-855 rounded-lg bg-slate-950/20">
-                  Chưa có hóa đơn nào được lưu.
-                </div>
-              ) : (
-                <div className="space-y-2.5 max-h-[300px] overflow-y-auto pr-1">
-                  {savedBills.map((bill) => {
-                    const tretUsage = bill.usages.find((u) => u.householdName === "Hộ Trệt");
-                    const lauUsage = bill.usages.find((u) => u.householdName === "Hộ Lầu");
-                    return (
-                      <div
-                        key={bill.id}
-                        className="bg-slate-950 p-3 rounded-lg border border-slate-850 flex items-center justify-between gap-3 text-xs sm:text-sm hover:border-slate-805 transition-all group"
-                      >
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-2">
-                            <span className="font-bold text-slate-200 text-xs sm:text-sm">
-                              Tháng {bill.month}
-                            </span>
-                            <span className="text-[9px] text-slate-500 font-mono">
-                              ({bill.createdAt.toLocaleDateString("vi-VN")})
-                            </span>
-                          </div>
-                          <div className="text-slate-400 text-[11px] flex flex-wrap gap-x-3 gap-y-0.5">
-                            <span>
-                              Tổng: <strong className="text-slate-350 font-semibold">{bill.totalKwh} kWh</strong> |{" "}
-                              <strong className="text-slate-350 font-semibold">{formatVND(bill.totalAmount)}</strong>
-                            </span>
-                            {tretUsage && (
-                              <span className="text-teal-400/90 font-medium">
-                                Trệt: {tretUsage.kwhUsed} kWh
-                              </span>
-                            )}
-                            {lauUsage && (
-                              <span className="text-violet-400/90 font-medium">
-                                Lầu: {lauUsage.kwhUsed} kWh
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => handleDeleteBill(bill.id, bill.month)}
-                          className="p-1.5 rounded-md text-slate-505 hover:text-rose-450 hover:bg-rose-500/5 transition-all opacity-100 sm:opacity-0 group-hover:opacity-100"
-                          title="Xóa hóa đơn này"
-                        >
-                          🗑️
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
             </div>
           </div>
         </div>
