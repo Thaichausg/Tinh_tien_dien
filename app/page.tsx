@@ -18,45 +18,49 @@ interface SavedBill {
   }[];
 }
 
+const formatKwhValue = (val: number): string => {
+  return parseFloat(val.toFixed(1)).toString();
+};
+
 // Helper functions for progressive tier coloring
 const getTretTierClass = (level: number, kwh: number) => {
-  if (kwh <= 0) return "text-slate-650 opacity-40 font-mono text-xs";
-  const base = "inline-flex flex-col items-end px-2 py-1 rounded-lg border font-mono transition-all ";
+  if (kwh <= 0) return "text-slate-600/30 font-mono";
+  const base = "inline-flex flex-col items-end font-mono transition-colors ";
   switch (level) {
-    case 1: return base + "bg-teal-500/5 text-teal-405 border-teal-500/10";
-    case 2: return base + "bg-teal-500/10 text-teal-400 border-teal-500/15";
-    case 3: return base + "bg-teal-500/18 text-teal-300 border-teal-500/20 font-medium";
-    case 4: return base + "bg-teal-500/26 text-teal-200 border-teal-400/25 font-medium";
-    case 5: return base + "bg-teal-500/36 text-teal-150 border-teal-400/30 font-semibold";
-    case 6: return base + "bg-teal-500/50 text-white border-teal-300/40 font-bold";
+    case 1: return base + "text-teal-400/40";
+    case 2: return base + "text-teal-400/60";
+    case 3: return base + "text-teal-400/80 font-medium";
+    case 4: return base + "text-teal-300 font-medium";
+    case 5: return base + "text-teal-205 font-semibold";
+    case 6: return base + "text-teal-400 font-bold underline decoration-teal-500/30";
     default: return base;
   }
 };
 
 const getLauTierClass = (level: number, kwh: number) => {
-  if (kwh <= 0) return "text-slate-650 opacity-40 font-mono text-xs";
-  const base = "inline-flex flex-col items-end px-2 py-1 rounded-lg border font-mono transition-all ";
+  if (kwh <= 0) return "text-slate-600/30 font-mono";
+  const base = "inline-flex flex-col items-end font-mono transition-colors ";
   switch (level) {
-    case 1: return base + "bg-violet-500/5 text-violet-405 border-violet-500/10";
-    case 2: return base + "bg-violet-500/10 text-violet-400 border-violet-500/15";
-    case 3: return base + "bg-violet-500/18 text-violet-300 border-violet-500/20 font-medium";
-    case 4: return base + "bg-violet-500/26 text-violet-200 border-violet-400/25 font-medium";
-    case 5: return base + "bg-violet-500/36 text-violet-150 border-violet-400/30 font-semibold";
-    case 6: return base + "bg-violet-500/50 text-white border-violet-300/40 font-bold";
+    case 1: return base + "text-violet-400/40";
+    case 2: return base + "text-violet-400/60";
+    case 3: return base + "text-violet-400/80 font-medium";
+    case 4: return base + "text-violet-350 font-medium";
+    case 5: return base + "text-violet-205 font-semibold";
+    case 6: return base + "text-violet-400 font-bold underline decoration-violet-500/30";
     default: return base;
   }
 };
 
 const getMainTierClass = (level: number, kwh: number) => {
-  if (kwh <= 0) return "text-slate-650 opacity-40 font-mono text-xs";
-  const base = "inline-flex flex-col items-end px-2 py-1 rounded-lg border font-mono transition-all ";
+  if (kwh <= 0) return "text-slate-600/30 font-mono";
+  const base = "inline-flex flex-col items-end font-mono transition-colors ";
   switch (level) {
-    case 1: return base + "bg-slate-500/5 text-slate-400 border-slate-850";
-    case 2: return base + "bg-slate-500/10 text-slate-350 border-slate-800";
-    case 3: return base + "bg-slate-500/16 text-slate-300 border-slate-750 font-medium";
-    case 4: return base + "bg-slate-500/22 text-slate-200 border-slate-700 font-medium";
-    case 5: return base + "bg-slate-500/28 text-slate-100 border-slate-600 font-semibold";
-    case 6: return base + "bg-slate-500/40 text-white border-slate-500 font-bold";
+    case 1: return base + "text-slate-500";
+    case 2: return base + "text-slate-400";
+    case 3: return base + "text-slate-350 font-medium";
+    case 4: return base + "text-slate-300 font-medium";
+    case 5: return base + "text-slate-200 font-semibold";
+    case 6: return base + "text-slate-100 font-bold";
     default: return base;
   }
 };
@@ -188,7 +192,7 @@ export default function ElectricitySplitter() {
 -----------------------------------------
 • Tổng tiền bill: ${formatVND(totalAmount)} (Thuế VAT: 8%)
 • Tổng điện tiêu thụ: ${totalKwh} kWh
-• Điện năng hao hụt: ${results.lossKwh.toFixed(1)} kWh
+• Điện năng hao hụt: ${formatKwhValue(results.lossKwh)} kWh
 
 =========================================
 1. HỘ TRỆT (Tỷ lệ: ${((tret.rawCostBeforeVat / (tret.rawCostBeforeVat + lau.rawCostBeforeVat || 1)) * 100).toFixed(0)}%):
@@ -426,7 +430,7 @@ export default function ElectricitySplitter() {
                   <div className="flex justify-between">
                     <span className="text-slate-400">Tổng điện năng phụ:</span>
                     <span className="font-semibold text-slate-200">
-                      {(kwhTret + kwhLau).toFixed(1)} kWh
+                      {formatKwhValue(kwhTret + kwhLau)} kWh
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -436,7 +440,7 @@ export default function ElectricitySplitter() {
                         results.lossKwh > 0 ? "text-amber-400" : "text-emerald-400"
                       }`}
                     >
-                      {results.lossKwh.toFixed(1)} kWh ({lossPctKwh.toFixed(1)}%)
+                      {formatKwhValue(results.lossKwh)} kWh ({formatKwhValue(lossPctKwh)}%)
                     </span>
                   </div>
                 </div>
@@ -569,19 +573,19 @@ export default function ElectricitySplitter() {
                       <th className="py-2.5 px-3 text-right">
                         Hộ Trệt
                         <span className="block text-[9px] text-slate-500 font-normal normal-case">
-                          Dùng: {kwhTret.toFixed(1)} kWh
+                          Dùng: {formatKwhValue(kwhTret)} kWh
                         </span>
                       </th>
                       <th className="py-2.5 px-3 text-right">
                         Hộ Lầu
                         <span className="block text-[9px] text-slate-500 font-normal normal-case">
-                          Dùng: {kwhLau.toFixed(1)} kWh
+                          Dùng: {formatKwhValue(kwhLau)} kWh
                         </span>
                       </th>
                       <th className="py-2.5 px-3 text-right">
                         Tổng Hóa Đơn
                         <span className="block text-[9px] text-slate-500 font-normal normal-case">
-                          Dùng: {results.inputTotalKwh.toFixed(1)} kWh
+                          Dùng: {formatKwhValue(results.inputTotalKwh)} kWh
                         </span>
                       </th>
                     </tr>
@@ -618,7 +622,7 @@ export default function ElectricitySplitter() {
                                 <td className="py-2.5 px-3 text-right">
                                   {tretDist.kwhAllocated > 0 ? (
                                     <div className={getTretTierClass(tier.level, tretDist.kwhAllocated)}>
-                                      <span className="text-[11px] font-bold">{tretDist.kwhAllocated.toFixed(1)} kWh</span>
+                                      <span className="text-[11px] font-bold">{formatKwhValue(tretDist.kwhAllocated)} kWh</span>
                                       <span className="text-[9px] opacity-75">{formatVND(tretDist.cost)}</span>
                                     </div>
                                   ) : (
@@ -630,7 +634,7 @@ export default function ElectricitySplitter() {
                                 <td className="py-2.5 px-3 text-right">
                                   {lauDist.kwhAllocated > 0 ? (
                                     <div className={getLauTierClass(tier.level, lauDist.kwhAllocated)}>
-                                      <span className="text-[11px] font-bold">{lauDist.kwhAllocated.toFixed(1)} kWh</span>
+                                      <span className="text-[11px] font-bold">{formatKwhValue(lauDist.kwhAllocated)} kWh</span>
                                       <span className="text-[9px] opacity-75">{formatVND(lauDist.cost)}</span>
                                     </div>
                                   ) : (
@@ -642,7 +646,7 @@ export default function ElectricitySplitter() {
                                 <td className="py-2.5 px-3 text-right">
                                   {mainDist.kwhAllocated > 0 ? (
                                     <div className={getMainTierClass(tier.level, mainDist.kwhAllocated)}>
-                                      <span className="text-[11px] font-semibold text-slate-350">{mainDist.kwhAllocated.toFixed(1)} kWh</span>
+                                      <span className="text-[11px] font-semibold text-slate-350">{formatKwhValue(mainDist.kwhAllocated)} kWh</span>
                                       <span className="text-[9px] text-slate-500">{formatVND(mainDist.cost)}</span>
                                     </div>
                                   ) : (
@@ -665,13 +669,13 @@ export default function ElectricitySplitter() {
                             <td className="py-2.5 px-3">Tổng kWh dùng thực tế</td>
                             <td className="py-2.5 px-3 text-center">—</td>
                             <td className="py-2.5 px-3 text-right text-teal-400 font-mono font-medium">
-                              {kwhTret.toFixed(1)} kWh
+                              {formatKwhValue(kwhTret)} kWh
                             </td>
                             <td className="py-2.5 px-3 text-right text-violet-400 font-mono font-medium">
-                              {kwhLau.toFixed(1)} kWh
+                              {formatKwhValue(kwhLau)} kWh
                             </td>
                             <td className="py-2.5 px-3 text-right text-slate-350 font-mono font-medium">
-                              {(kwhTret + kwhLau).toFixed(1)} kWh
+                              {formatKwhValue(kwhTret + kwhLau)} kWh
                             </td>
                           </tr>
 
@@ -696,13 +700,13 @@ export default function ElectricitySplitter() {
                               <span className="flex items-center gap-1">📉 Bù hao hụt & lệch bậc</span>
                             </td>
                             <td className="py-2.5 px-3 text-center font-mono text-xs">
-                              {results.lossKwh > 0 ? `+${results.lossKwh.toFixed(1)} kWh` : "0 kWh"}
+                              {results.lossKwh > 0 ? `+${formatKwhValue(results.lossKwh)} kWh` : "0 kWh"}
                             </td>
                             <td className="py-2.5 px-3 text-right font-mono text-xs">
                               <div>+{formatVND(results.households[0].lossCostShareBeforeVat)}</div>
                               {results.lossKwh > 0 && (
                                 <div className="text-[9px] text-slate-600 font-normal">
-                                  Gánh +{results.households[0].lossKwhShare.toFixed(1)} kWh
+                                  Gánh +{formatKwhValue(results.households[0].lossKwhShare)} kWh
                                 </div>
                               )}
                             </td>
@@ -710,7 +714,7 @@ export default function ElectricitySplitter() {
                               <div>+{formatVND(results.households[1].lossCostShareBeforeVat)}</div>
                               {results.lossKwh > 0 && (
                                 <div className="text-[9px] text-slate-600 font-normal">
-                                  Gánh +{results.households[1].lossKwhShare.toFixed(1)} kWh
+                                  Gánh +{formatKwhValue(results.households[1].lossKwhShare)} kWh
                                 </div>
                               )}
                             </td>
