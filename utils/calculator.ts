@@ -119,11 +119,15 @@ export function calculateSplit(
   const allocatedTotalLau = totalBillAmount - allocatedTotalTret;
 
   // 4. Back-calculate before VAT and VAT for each household (using 8% VAT)
+  const totalBeforeVat = Math.round(totalBillAmount / 1.08);
+  const totalVat = totalBillAmount - totalBeforeVat;
+
   const allocatedBeforeVatTret = Math.round(allocatedTotalTret / 1.08);
   const allocatedVatTret = allocatedTotalTret - allocatedBeforeVatTret;
 
-  const allocatedBeforeVatLau = Math.round(allocatedTotalLau / 1.08);
-  const allocatedVatLau = allocatedTotalLau - allocatedBeforeVatLau;
+  // Hộ Lầu gets the remainder of the total before VAT and VAT to ensure perfect column sum alignment
+  const allocatedBeforeVatLau = totalBeforeVat - allocatedBeforeVatTret;
+  const allocatedVatLau = totalVat - allocatedVatTret;
 
   // Calculate real average prices
   const avgPriceTret = kwhTret > 0 ? Math.round(allocatedTotalTret / kwhTret) : 0;
