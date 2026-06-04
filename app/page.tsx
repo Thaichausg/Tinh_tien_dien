@@ -565,24 +565,24 @@ export default function ElectricitySplitter() {
 
               {/* Table details */}
               <div className="overflow-x-auto -mx-5 sm:mx-0">
-                <table className="w-full border-collapse text-left text-xs sm:text-sm whitespace-nowrap min-w-[650px]">
+                <table className="w-full border-collapse text-left text-[11px] sm:text-xs whitespace-nowrap min-w-[600px]">
                   <thead>
                     <tr className="border-b border-slate-850 text-slate-500 font-bold text-[10px] tracking-wider uppercase bg-slate-950/20">
-                      <th className="py-2.5 px-3">Bậc Điện / Khoản Mục</th>
-                      <th className="py-2.5 px-3 text-center">Đơn Giá</th>
-                      <th className="py-2.5 px-3 text-right">
+                      <th className="py-2 px-2.5">Bậc Điện / Khoản Mục</th>
+                      <th className="py-2 px-2.5 text-center">Đơn Giá</th>
+                      <th className="py-2 px-2.5 text-right">
                         Hộ Trệt
                         <span className="block text-[9px] text-slate-500 font-normal normal-case">
                           Dùng: {formatKwhValue(kwhTret)} kWh
                         </span>
                       </th>
-                      <th className="py-2.5 px-3 text-right">
+                      <th className="py-2 px-2.5 text-right">
                         Hộ Lầu
                         <span className="block text-[9px] text-slate-500 font-normal normal-case">
                           Dùng: {formatKwhValue(kwhLau)} kWh
                         </span>
                       </th>
-                      <th className="py-2.5 px-3 text-right">
+                      <th className="py-2 px-2.5 text-right">
                         Tổng Hóa Đơn
                         <span className="block text-[9px] text-slate-500 font-normal normal-case">
                           Dùng: {formatKwhValue(results.inputTotalKwh)} kWh
@@ -611,46 +611,46 @@ export default function ElectricitySplitter() {
 
                             return (
                               <tr key={tier.level} className="hover:bg-slate-900/10 transition-colors">
-                                <td className="py-2.5 px-3">
+                                <td className="py-2 px-2.5">
                                   <div className="font-medium text-slate-350">{tier.label}</div>
                                 </td>
-                                <td className="py-2.5 px-3 text-center font-mono text-teal-400/90 text-xs">
+                                <td className="py-2 px-2.5 text-center font-mono text-teal-400/90">
                                   {tier.price.toLocaleString("vi-VN")} đ
                                 </td>
                                 
                                 {/* Hộ Trệt */}
-                                <td className="py-2.5 px-3 text-right">
+                                <td className="py-2 px-2.5 text-right">
                                   {tretDist.kwhAllocated > 0 ? (
                                     <div className={getTretTierClass(tier.level, tretDist.kwhAllocated)}>
                                       <span className="text-[11px] font-bold">{formatKwhValue(tretDist.kwhAllocated)} kWh</span>
                                       <span className="text-[9px] opacity-75">{formatVND(tretDist.cost)}</span>
                                     </div>
                                   ) : (
-                                    <span className="text-slate-600 opacity-30 font-mono text-[11px]">—</span>
+                                    <span className="text-slate-600 opacity-30 font-mono">—</span>
                                   )}
                                 </td>
 
                                 {/* Hộ Lầu */}
-                                <td className="py-2.5 px-3 text-right">
+                                <td className="py-2 px-2.5 text-right">
                                   {lauDist.kwhAllocated > 0 ? (
                                     <div className={getLauTierClass(tier.level, lauDist.kwhAllocated)}>
                                       <span className="text-[11px] font-bold">{formatKwhValue(lauDist.kwhAllocated)} kWh</span>
                                       <span className="text-[9px] opacity-75">{formatVND(lauDist.cost)}</span>
                                     </div>
                                   ) : (
-                                    <span className="text-slate-600 opacity-30 font-mono text-[11px]">—</span>
+                                    <span className="text-slate-600 opacity-30 font-mono">—</span>
                                   )}
                                 </td>
 
                                 {/* Tổng Hóa Đơn */}
-                                <td className="py-2.5 px-3 text-right">
+                                <td className="py-2 px-2.5 text-right">
                                   {mainDist.kwhAllocated > 0 ? (
                                     <div className={getMainTierClass(tier.level, mainDist.kwhAllocated)}>
                                       <span className="text-[11px] font-semibold text-slate-350">{formatKwhValue(mainDist.kwhAllocated)} kWh</span>
                                       <span className="text-[9px] text-slate-500">{formatVND(mainDist.cost)}</span>
                                     </div>
                                   ) : (
-                                    <span className="text-slate-600 opacity-30 font-mono text-[11px]">—</span>
+                                    <span className="text-slate-600 opacity-30 font-mono">—</span>
                                   )}
                                 </td>
                               </tr>
@@ -659,50 +659,50 @@ export default function ElectricitySplitter() {
 
                           {/* Summary Divider Header */}
                           <tr className="bg-slate-950/20 text-[9px] font-bold text-slate-500 uppercase tracking-wider">
-                            <td colSpan={5} className="py-2 px-3 border-t border-slate-850">
+                            <td colSpan={5} className="py-1.5 px-2.5 border-t border-slate-850">
                               Cộng dồn & Phân bổ chi tiết
                             </td>
                           </tr>
 
                           {/* Row 1: Tổng số kWh dùng thực tế */}
                           <tr className="hover:bg-slate-900/10 transition-colors text-slate-300">
-                            <td className="py-2.5 px-3">Tổng kWh dùng thực tế</td>
-                            <td className="py-2.5 px-3 text-center">—</td>
-                            <td className="py-2.5 px-3 text-right text-teal-400 font-mono font-medium">
+                            <td className="py-2 px-2.5">Tổng kWh dùng thực tế</td>
+                            <td className="py-2 px-2.5 text-center">—</td>
+                            <td className="py-2 px-2.5 text-right text-teal-400 font-mono font-medium">
                               {formatKwhValue(kwhTret)} kWh
                             </td>
-                            <td className="py-2.5 px-3 text-right text-violet-400 font-mono font-medium">
+                            <td className="py-2 px-2.5 text-right text-violet-400 font-mono font-medium">
                               {formatKwhValue(kwhLau)} kWh
                             </td>
-                            <td className="py-2.5 px-3 text-right text-slate-350 font-mono font-medium">
+                            <td className="py-2 px-2.5 text-right text-slate-350 font-mono font-medium">
                               {formatKwhValue(kwhTret + kwhLau)} kWh
                             </td>
                           </tr>
 
                           {/* Row 2: Thành tiền dùng thô (trước VAT) */}
                           <tr className="hover:bg-slate-900/10 transition-colors text-slate-400">
-                            <td className="py-2.5 px-3 text-xs">Thành tiền tiêu thụ thô (chưa VAT)</td>
-                            <td className="py-2.5 px-3 text-center">—</td>
-                            <td className="py-2.5 px-3 text-right font-mono text-xs">
+                            <td className="py-2 px-2.5">Thành tiền tiêu thụ thô (chưa VAT)</td>
+                            <td className="py-2 px-2.5 text-center">—</td>
+                            <td className="py-2 px-2.5 text-right font-mono">
                               {formatVND(tretRaw.totalRawCost)}
                             </td>
-                            <td className="py-2.5 px-3 text-right font-mono text-xs">
+                            <td className="py-2 px-2.5 text-right font-mono">
                               {formatVND(lauRaw.totalRawCost)}
                             </td>
-                            <td className="py-2.5 px-3 text-right font-mono font-medium text-xs">
+                            <td className="py-2 px-2.5 text-right font-mono font-medium">
                               {formatVND(tretRaw.totalRawCost + lauRaw.totalRawCost)}
                             </td>
                           </tr>
 
                           {/* Row 3: Hao hụt & Lệch bậc */}
                           <tr className="hover:bg-slate-900/10 transition-colors text-amber-500/80 bg-amber-500/[0.02]">
-                            <td className="py-2.5 px-3 text-xs">
+                            <td className="py-2 px-2.5">
                               <span className="flex items-center gap-1">📉 Bù hao hụt & lệch bậc</span>
                             </td>
-                            <td className="py-2.5 px-3 text-center font-mono text-xs">
+                            <td className="py-2 px-2.5 text-center font-mono">
                               {results.lossKwh > 0 ? `+${formatKwhValue(results.lossKwh)} kWh` : "0 kWh"}
                             </td>
-                            <td className="py-2.5 px-3 text-right font-mono text-xs">
+                            <td className="py-2 px-2.5 text-right font-mono">
                               <div>+{formatVND(results.households[0].lossCostShareBeforeVat)}</div>
                               {results.lossKwh > 0 && (
                                 <div className="text-[9px] text-slate-600 font-normal">
@@ -710,7 +710,7 @@ export default function ElectricitySplitter() {
                                 </div>
                               )}
                             </td>
-                            <td className="py-2.5 px-3 text-right font-mono text-xs">
+                            <td className="py-2 px-2.5 text-right font-mono">
                               <div>+{formatVND(results.households[1].lossCostShareBeforeVat)}</div>
                               {results.lossKwh > 0 && (
                                 <div className="text-[9px] text-slate-600 font-normal">
@@ -718,7 +718,7 @@ export default function ElectricitySplitter() {
                                 </div>
                               )}
                             </td>
-                            <td className="py-2.5 px-3 text-right font-mono font-medium text-xs">
+                            <td className="py-2 px-2.5 text-right font-mono font-medium">
                               <div>
                                 +{formatVND(
                                   results.households[0].allocatedBeforeVat +
@@ -731,15 +731,15 @@ export default function ElectricitySplitter() {
 
                           {/* Row 4: Tổng trước VAT */}
                           <tr className="hover:bg-slate-900/10 transition-colors bg-slate-950/20 font-semibold border-t border-slate-850">
-                            <td className="py-2.5 px-3 text-slate-200 text-xs">Tổng cộng Chưa VAT</td>
-                            <td className="py-2.5 px-3 text-center">—</td>
-                            <td className="py-2.5 px-3 text-right text-slate-200 font-mono text-xs">
+                            <td className="py-2 px-2.5 text-slate-200">Tổng cộng Chưa VAT</td>
+                            <td className="py-2 px-2.5 text-center">—</td>
+                            <td className="py-2 px-2.5 text-right text-slate-200 font-mono">
                               {formatVND(results.households[0].allocatedBeforeVat)}
                             </td>
-                            <td className="py-2.5 px-3 text-right text-slate-200 font-mono text-xs">
+                            <td className="py-2 px-2.5 text-right text-slate-200 font-mono">
                               {formatVND(results.households[1].allocatedBeforeVat)}
                             </td>
-                            <td className="py-2.5 px-3 text-right text-slate-200 font-mono text-xs">
+                            <td className="py-2 px-2.5 text-right text-slate-200 font-mono">
                               {formatVND(
                                 results.households[0].allocatedBeforeVat +
                                   results.households[1].allocatedBeforeVat
@@ -749,15 +749,15 @@ export default function ElectricitySplitter() {
 
                           {/* Row 5: Thuế VAT 8% */}
                           <tr className="hover:bg-slate-900/10 transition-colors text-slate-400">
-                            <td className="py-2.5 px-3 text-xs">Thuế VAT (8%)</td>
-                            <td className="py-2.5 px-3 text-center">—</td>
-                            <td className="py-2.5 px-3 text-right font-mono text-xs">
+                            <td className="py-2 px-2.5">Thuế VAT (8%)</td>
+                            <td className="py-2 px-2.5 text-center">—</td>
+                            <td className="py-2 px-2.5 text-right font-mono">
                               {formatVND(results.households[0].allocatedVat)}
                             </td>
-                            <td className="py-2.5 px-3 text-right font-mono text-xs">
+                            <td className="py-2 px-2.5 text-right font-mono">
                               {formatVND(results.households[1].allocatedVat)}
                             </td>
-                            <td className="py-2.5 px-3 text-right font-mono font-medium text-xs">
+                            <td className="py-2 px-2.5 text-right font-mono font-medium">
                               {formatVND(
                                 results.households[0].allocatedVat + results.households[1].allocatedVat
                               )}
@@ -766,17 +766,17 @@ export default function ElectricitySplitter() {
 
                           {/* Row 6: TỔNG THANH TOÁN (SAU VAT) */}
                           <tr className="bg-slate-950/50 font-bold border-t border-slate-850">
-                            <td className="py-3 px-3 text-slate-100 uppercase tracking-wide text-xs">
+                            <td className="py-2.5 px-2.5 text-slate-100 uppercase tracking-wide">
                               Tổng cộng Phải Trả
                             </td>
-                            <td className="py-3 px-3 text-center">—</td>
-                            <td className="py-3 px-3 text-right text-teal-400 font-mono text-sm sm:text-base">
+                            <td className="py-2.5 px-2.5 text-center">—</td>
+                            <td className="py-2.5 px-2.5 text-right text-teal-400 font-mono text-xs sm:text-sm">
                               {formatVND(results.households[0].allocatedTotal)}
                             </td>
-                            <td className="py-3 px-3 text-right text-violet-400 font-mono text-sm sm:text-base">
+                            <td className="py-2.5 px-2.5 text-right text-violet-400 font-mono text-xs sm:text-sm">
                               {formatVND(results.households[1].allocatedTotal)}
                             </td>
-                            <td className="py-3 px-3 text-right text-white font-mono text-sm sm:text-lg underline decoration-teal-500 decoration-2 underline-offset-4">
+                            <td className="py-2.5 px-2.5 text-right text-white font-mono text-sm sm:text-base underline decoration-teal-500 decoration-2 underline-offset-4">
                               {formatVND(results.inputTotalBill)}
                             </td>
                           </tr>
