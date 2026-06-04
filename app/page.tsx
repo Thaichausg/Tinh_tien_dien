@@ -546,7 +546,7 @@ export default function ElectricitySplitter() {
                     <tr className="bg-slate-950/40 font-bold">
                       <td className="py-4 px-6 sm:px-4 text-slate-300">Tổng Hóa Đơn</td>
                       <td className="py-4 px-4 text-center text-slate-200 font-mono">
-                        {totalKwh}
+                        {results.inputTotalKwh}
                       </td>
                       <td className="py-4 px-4 text-right text-slate-300 font-mono">
                         {formatVND(

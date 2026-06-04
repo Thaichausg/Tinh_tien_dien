@@ -87,8 +87,11 @@ export function calculateSplit(
   kwhTret: number,        // Sub-meter kWh for Hộ Trệt
   kwhLau: number          // Sub-meter kWh for Hộ Lầu
 ): CalculationResult {
-  // 1. Calculate the total cost for the whole meter first
-  const { totalRawCost: mainCalculatedBeforeVat } = calculateRawEvnCost(totalKwh);
+  // If totalKwh is 0 or less, fallback to the sum of sub-meters to automate the column total
+  const effectiveTotalKwh = totalKwh > 0 ? totalKwh : (kwhTret + kwhLau);
+
+  // 1. Calculate the total cost for the whole meter first using effectiveTotalKwh
+  const { totalRawCost: mainCalculatedBeforeVat } = calculateRawEvnCost(effectiveTotalKwh);
   const mainCalculatedVat = Math.round(mainCalculatedBeforeVat * 0.08);
   const mainCalculatedTotal = mainCalculatedBeforeVat + mainCalculatedVat;
   const discrepancy = totalBillAmount - mainCalculatedTotal;
@@ -125,7 +128,7 @@ export function calculateSplit(
   const avgPriceLau = kwhLau > 0 ? Math.round(allocatedTotalLau / kwhLau) : 0;
 
   // Loss details
-  const lossKwh = Math.max(0, totalKwh - (kwhTret + kwhLau));
+  const lossKwh = Math.max(0, effectiveTotalKwh - (kwhTret + kwhLau));
 
   const households: HouseholdDetail[] = [
     {
@@ -158,7 +161,7 @@ export function calculateSplit(
     mainCalculatedVat,
     mainCalculatedTotal,
     inputTotalBill: totalBillAmount,
-    inputTotalKwh: totalKwh,
+    inputTotalKwh: effectiveTotalKwh,
     lossKwh,
     discrepancy,
     households,
