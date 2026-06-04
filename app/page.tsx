@@ -24,7 +24,7 @@ export default function ElectricitySplitter() {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`; // YYYY-MM
   });
-  const [totalAmount, setTotalAmount] = useState<number>(2920000);
+  const [totalAmount, setTotalAmount] = useState<number>(2920493);
   const [totalKwh, setTotalKwh] = useState<number>(871);
   const [kwhTret, setKwhTret] = useState<number>(350);
   const [kwhLau, setKwhLau] = useState<number>(421);
