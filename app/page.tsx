@@ -20,43 +20,43 @@ interface SavedBill {
 
 // Helper functions for progressive tier coloring
 const getTretTierClass = (level: number, kwh: number) => {
-  if (kwh <= 0) return "text-slate-600 opacity-40 font-mono text-xs";
-  const base = "inline-flex flex-col items-end px-2.5 py-1.5 rounded-xl border font-mono transition-all hover:scale-[1.02] ";
+  if (kwh <= 0) return "text-slate-650 opacity-40 font-mono text-xs";
+  const base = "inline-flex flex-col items-end px-2 py-1 rounded-lg border font-mono transition-all ";
   switch (level) {
-    case 1: return base + "bg-teal-950/20 text-teal-400/90 border-teal-500/10";
-    case 2: return base + "bg-teal-950/40 text-teal-400 border-teal-500/20";
-    case 3: return base + "bg-teal-900/25 text-teal-300 border-teal-500/30 font-medium";
-    case 4: return base + "bg-teal-900/50 text-teal-200 border-teal-500/40 font-semibold";
-    case 5: return base + "bg-teal-800/40 text-teal-100 border-teal-400/50 font-bold";
-    case 6: return base + "bg-teal-650/70 text-white border-teal-300/60 font-extrabold shadow-md shadow-teal-500/10";
+    case 1: return base + "bg-teal-500/5 text-teal-405 border-teal-500/10";
+    case 2: return base + "bg-teal-500/10 text-teal-400 border-teal-500/15";
+    case 3: return base + "bg-teal-500/18 text-teal-300 border-teal-500/20 font-medium";
+    case 4: return base + "bg-teal-500/26 text-teal-200 border-teal-400/25 font-medium";
+    case 5: return base + "bg-teal-500/36 text-teal-150 border-teal-400/30 font-semibold";
+    case 6: return base + "bg-teal-500/50 text-white border-teal-300/40 font-bold";
     default: return base;
   }
 };
 
 const getLauTierClass = (level: number, kwh: number) => {
-  if (kwh <= 0) return "text-slate-600 opacity-40 font-mono text-xs";
-  const base = "inline-flex flex-col items-end px-2.5 py-1.5 rounded-xl border font-mono transition-all hover:scale-[1.02] ";
+  if (kwh <= 0) return "text-slate-650 opacity-40 font-mono text-xs";
+  const base = "inline-flex flex-col items-end px-2 py-1 rounded-lg border font-mono transition-all ";
   switch (level) {
-    case 1: return base + "bg-violet-950/20 text-violet-400/90 border-violet-500/10";
-    case 2: return base + "bg-violet-950/40 text-violet-400 border-violet-500/20";
-    case 3: return base + "bg-violet-900/25 text-violet-300 border-violet-500/30 font-medium";
-    case 4: return base + "bg-violet-900/50 text-violet-200 border-violet-500/40 font-semibold";
-    case 5: return base + "bg-violet-800/40 text-violet-100 border-violet-400/50 font-bold";
-    case 6: return base + "bg-violet-650/70 text-white border-violet-300/60 font-extrabold shadow-md shadow-violet-500/10";
+    case 1: return base + "bg-violet-500/5 text-violet-405 border-violet-500/10";
+    case 2: return base + "bg-violet-500/10 text-violet-400 border-violet-500/15";
+    case 3: return base + "bg-violet-500/18 text-violet-300 border-violet-500/20 font-medium";
+    case 4: return base + "bg-violet-500/26 text-violet-200 border-violet-400/25 font-medium";
+    case 5: return base + "bg-violet-500/36 text-violet-150 border-violet-400/30 font-semibold";
+    case 6: return base + "bg-violet-500/50 text-white border-violet-300/40 font-bold";
     default: return base;
   }
 };
 
 const getMainTierClass = (level: number, kwh: number) => {
-  if (kwh <= 0) return "text-slate-600 opacity-40 font-mono text-xs";
-  const base = "inline-flex flex-col items-end px-2.5 py-1.5 rounded-xl border font-mono transition-all hover:scale-[1.02] ";
+  if (kwh <= 0) return "text-slate-650 opacity-40 font-mono text-xs";
+  const base = "inline-flex flex-col items-end px-2 py-1 rounded-lg border font-mono transition-all ";
   switch (level) {
-    case 1: return base + "bg-slate-900/15 text-slate-400 border-slate-800/80";
-    case 2: return base + "bg-slate-900/30 text-slate-350 border-slate-700/60";
-    case 3: return base + "bg-slate-800/20 text-slate-300 border-slate-750 font-medium";
-    case 4: return base + "bg-slate-800/50 text-slate-200 border-slate-650 font-semibold";
-    case 5: return base + "bg-slate-700/35 text-slate-100 border-slate-550 font-bold";
-    case 6: return base + "bg-slate-600/45 text-white border-slate-450 font-extrabold";
+    case 1: return base + "bg-slate-500/5 text-slate-400 border-slate-850";
+    case 2: return base + "bg-slate-500/10 text-slate-350 border-slate-800";
+    case 3: return base + "bg-slate-500/16 text-slate-300 border-slate-750 font-medium";
+    case 4: return base + "bg-slate-500/22 text-slate-200 border-slate-700 font-medium";
+    case 5: return base + "bg-slate-500/28 text-slate-100 border-slate-600 font-semibold";
+    case 6: return base + "bg-slate-500/40 text-white border-slate-500 font-bold";
     default: return base;
   }
 };
@@ -226,26 +226,26 @@ export default function ElectricitySplitter() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans pb-12 selection:bg-teal-500 selection:text-slate-950">
-      {/* Premium Top Navigation header */}
-      <header className="border-b border-slate-800 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50 px-4 py-4 sm:px-6">
+      {/* Flat Top Navigation header */}
+      <header className="border-b border-slate-900 bg-slate-950 px-4 py-3.5 sticky top-0 z-50 sm:px-6">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-gradient-to-tr from-teal-500 to-emerald-400 p-2 rounded-xl text-slate-950 font-bold shadow-lg shadow-teal-500/10">
+          <div className="flex items-center gap-2.5">
+            <div className="h-8 w-8 rounded-lg bg-teal-500/10 text-teal-400 flex items-center justify-center font-bold border border-teal-500/20 text-sm">
               ⚡
             </div>
             <div>
-              <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-teal-400 via-emerald-300 to-violet-400 bg-clip-text text-transparent">
+              <h1 className="text-sm font-bold tracking-tight text-slate-100">
                 EVN Splitter
               </h1>
-              <p className="text-xs text-slate-400 hidden sm:block">
+              <p className="text-[10px] text-slate-500 hidden sm:block">
                 Bộ Chia Tiền Điện 6 Bậc Hộ Gia Đình
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              Neon Database Active
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[10px] font-semibold bg-emerald-500/5 text-emerald-400 border border-emerald-500/15">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+              Neon DB Connected
             </span>
           </div>
         </div>
@@ -255,39 +255,39 @@ export default function ElectricitySplitter() {
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 py-6 sm:px-6 space-y-6">
         {/* Verification & Self-Test Banner */}
         {results.selfTest.passed ? (
-          <div className="bg-emerald-950/40 border border-emerald-800/40 rounded-2xl p-4 flex items-center justify-between gap-3 text-emerald-300 shadow-md">
-            <div className="flex items-center gap-3">
-              <span className="text-xl">✓</span>
+          <div className="bg-emerald-500/5 border border-emerald-500/15 rounded-xl p-3 flex items-center justify-between gap-3 text-emerald-400 shadow-sm text-xs sm:text-sm">
+            <div className="flex items-center gap-2">
+              <span className="text-base">✓</span>
               <div>
-                <p className="font-semibold text-sm sm:text-base">
+                <p className="font-semibold">
                   Tổng kiểm tra (Self-Test) hợp lệ
                 </p>
-                <p className="text-xs text-emerald-400/80">
+                <p className="text-[10px] text-emerald-500/70">
                   Hộ Trệt ({formatVND(results.households[0].allocatedTotal)}) + Hộ Lầu (
                   {formatVND(results.households[1].allocatedTotal)}) ={" "}
                   {formatVND(results.selfTest.sumOfHouseholdsTotal)} (Sai số: 0đ)
                 </p>
               </div>
             </div>
-            <span className="text-xs bg-emerald-500/20 px-2.5 py-1 rounded-lg border border-emerald-400/30 uppercase font-mono tracking-wider font-bold">
+            <span className="text-[9px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-400/20 uppercase font-mono tracking-wider font-bold">
               PASS
             </span>
           </div>
         ) : (
-          <div className="bg-rose-950/40 border border-rose-800/40 rounded-2xl p-4 flex items-center justify-between gap-3 text-rose-300 shadow-md">
-            <div className="flex items-center gap-3">
-              <span className="text-xl">⚠️</span>
+          <div className="bg-rose-500/5 border border-rose-500/15 rounded-xl p-3 flex items-center justify-between gap-3 text-rose-400 shadow-sm text-xs sm:text-sm">
+            <div className="flex items-center gap-2">
+              <span className="text-base">⚠️</span>
               <div>
-                <p className="font-semibold text-sm sm:text-base">
+                <p className="font-semibold">
                   Có sai lệch trong phân bổ tổng tiền
                 </p>
-                <p className="text-xs text-rose-400/80">
+                <p className="text-[10px] text-rose-500/70">
                   Tổng 2 hộ không khớp hóa đơn gốc. Sai lệch:{" "}
                   {formatVND(results.selfTest.difference)}
                 </p>
               </div>
             </div>
-            <span className="text-xs bg-rose-500/20 px-2.5 py-1 rounded-lg border border-rose-400/30 uppercase font-mono tracking-wider font-bold">
+            <span className="text-[9px] bg-rose-500/10 px-2 py-0.5 rounded border border-rose-400/20 uppercase font-mono tracking-wider font-bold">
               WARN
             </span>
           </div>
@@ -296,15 +296,14 @@ export default function ElectricitySplitter() {
         {/* 2-Column Responsive Dashboard */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Left Column: Input Forms */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 h-40 w-40 bg-teal-500/5 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="lg:col-span-5 space-y-5">
+            <div className="bg-slate-900/40 border border-slate-850 rounded-xl p-5 shadow-sm">
               
-              <div className="flex items-center justify-between mb-5">
-                <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-sm font-bold text-slate-100 flex items-center gap-1.5">
                   <span>📥</span> Nhập Số Liệu Hóa Đơn
                 </h2>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   <button
                     onClick={() => {
                       setTotalAmount(0);
@@ -313,28 +312,28 @@ export default function ElectricitySplitter() {
                       setKwhLau(0);
                       setAutoCalcKwh(false);
                     }}
-                    className="text-xs text-slate-400 hover:text-rose-400 transition-colors font-semibold flex items-center gap-1 active:scale-95 px-2 py-1 rounded-lg bg-slate-800/40 hover:bg-rose-500/10 border border-slate-700/50"
+                    className="text-[10px] text-slate-400 hover:text-rose-455 transition-colors font-medium flex items-center gap-1 active:scale-[0.98] px-2 py-0.5 rounded bg-slate-950 hover:bg-rose-950/20 border border-slate-850"
                     title="Xóa dữ liệu đang nhập"
                   >
-                    🗑️ Xóa nhập liệu
+                    🗑️ Xóa
                   </button>
                   <input
                     type="month"
                     value={month}
                     onChange={(e) => setMonth(e.target.value)}
-                    className="bg-slate-950 border border-slate-700 rounded-xl px-2.5 py-1 text-sm text-slate-200 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 font-medium"
+                    className="bg-slate-950 border border-slate-850 rounded-md px-2 py-0.5 text-xs text-slate-200 outline-none focus:border-teal-500 transition-colors font-medium"
                   />
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3.5">
                 {/* Total Invoice Amount */}
                 <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                  <div className="flex justify-between items-center mb-1.5">
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                       Tổng Tiền Hóa Đơn (gồm VAT)
                     </label>
-                    <label className="flex items-center gap-1.5 text-xs font-semibold text-teal-400 cursor-pointer select-none hover:text-teal-300 transition-colors">
+                    <label className="flex items-center gap-1 text-[10px] font-semibold text-teal-400 cursor-pointer select-none hover:text-teal-300 transition-colors">
                       <input
                         type="checkbox"
                         checked={autoCalcKwh}
@@ -345,7 +344,7 @@ export default function ElectricitySplitter() {
                             setTotalKwh(calculateKwhFromAmount(totalAmount));
                           }
                         }}
-                        className="rounded border-slate-700 bg-slate-950 text-teal-500 focus:ring-teal-500/20 h-3.5 w-3.5 accent-teal-500 cursor-pointer"
+                        className="rounded border-slate-850 bg-slate-950 text-teal-500 focus:ring-0 h-3 w-3 accent-teal-500 cursor-pointer"
                       />
                       Tự tính Số điện tổng
                     </label>
@@ -361,10 +360,10 @@ export default function ElectricitySplitter() {
                           setTotalKwh(calculateKwhFromAmount(amt));
                         }
                       }}
-                      placeholder="VD: 2920000"
-                      className="w-full bg-slate-950 border border-slate-700 rounded-2xl px-4 py-3.5 pl-5 pr-14 text-white text-lg font-bold outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all placeholder:text-slate-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      placeholder="VD: 2920493"
+                      className="w-full bg-slate-950 border border-slate-850 rounded-lg px-3 py-2 pl-3 pr-12 text-slate-100 text-sm font-semibold outline-none focus:border-teal-500 transition-all placeholder:text-slate-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold text-sm">
+                    <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-505 font-medium text-[11px]">
                       VND
                     </span>
                   </div>
@@ -372,8 +371,8 @@ export default function ElectricitySplitter() {
 
                 {/* Total kWh */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                    Tổng Điện Năng Tiêu Thụ (kWh) {autoCalcKwh && <span className="text-[10px] text-teal-400 font-normal lowercase">(tự động tính từ số tiền)</span>}
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                    Tổng Điện Năng Tiêu Thụ (kWh) {autoCalcKwh && <span className="text-[9px] text-teal-400 font-normal lowercase">(tự động tính)</span>}
                   </label>
                   <div className="relative">
                     <input
@@ -384,18 +383,18 @@ export default function ElectricitySplitter() {
                         setAutoCalcKwh(false); // Turn off auto-calc when manually overridden
                       }}
                       placeholder="VD: 871"
-                      className="w-full bg-slate-950 border border-slate-700 rounded-2xl px-4 py-3.5 pl-5 pr-14 text-white text-lg font-bold outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all placeholder:text-slate-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      className="w-full bg-slate-950 border border-slate-850 rounded-lg px-3 py-2 pl-3 pr-12 text-slate-100 text-sm font-semibold outline-none focus:border-teal-500 transition-all placeholder:text-slate-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold text-sm">
+                    <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-505 font-medium text-[11px]">
                       kWh
                     </span>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 border-t border-slate-800/80 pt-4">
+                <div className="grid grid-cols-2 gap-3.5 border-t border-slate-850 pt-3">
                   {/* Hộ Trệt */}
                   <div>
-                    <label className="block text-xs font-semibold text-teal-400 uppercase tracking-wider mb-2">
+                    <label className="block text-[10px] font-bold text-teal-405 uppercase tracking-wider mb-1.5">
                       Hộ Trệt (kWh)
                     </label>
                     <input
@@ -403,13 +402,13 @@ export default function ElectricitySplitter() {
                       value={kwhTret || ""}
                       onChange={(e) => setKwhTret(parseFloat(e.target.value) || 0)}
                       placeholder="VD: 350"
-                      className="w-full bg-slate-950 border border-teal-500/30 rounded-2xl px-4 py-3 text-white font-bold outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-400/20 transition-all placeholder:text-slate-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      className="w-full bg-slate-950 border border-slate-850 hover:border-teal-500/40 focus:border-teal-500 rounded-lg px-3 py-1.5 text-slate-100 text-xs font-semibold outline-none transition-all placeholder:text-slate-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                   </div>
 
                   {/* Hộ Lầu */}
                   <div>
-                    <label className="block text-xs font-semibold text-violet-400 uppercase tracking-wider mb-2">
+                    <label className="block text-[10px] font-bold text-violet-405 uppercase tracking-wider mb-1.5">
                       Hộ Lầu (kWh)
                     </label>
                     <input
@@ -417,13 +416,13 @@ export default function ElectricitySplitter() {
                       value={kwhLau || ""}
                       onChange={(e) => setKwhLau(parseFloat(e.target.value) || 0)}
                       placeholder="VD: 421"
-                      className="w-full bg-slate-950 border border-violet-500/30 rounded-2xl px-4 py-3 text-white font-bold outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-400/20 transition-all placeholder:text-slate-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      className="w-full bg-slate-950 border border-slate-850 hover:border-violet-500/40 focus:border-violet-500 rounded-lg px-3 py-1.5 text-slate-100 text-xs font-semibold outline-none transition-all placeholder:text-slate-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                   </div>
                 </div>
 
                 {/* Sub-meters vs Main verification indicator */}
-                <div className="bg-slate-950/50 rounded-2xl p-4 border border-slate-800 text-xs space-y-2 mt-2">
+                <div className="bg-slate-950 rounded-lg p-3 border border-slate-850 text-xs space-y-1.5">
                   <div className="flex justify-between">
                     <span className="text-slate-400">Tổng điện năng phụ:</span>
                     <span className="font-semibold text-slate-200">
@@ -443,15 +442,15 @@ export default function ElectricitySplitter() {
                 </div>
 
                 {/* DB actions */}
-                <div className="pt-2 space-y-3">
+                <div className="pt-1.5 space-y-2">
                   <button
                     onClick={handleSaveBill}
                     disabled={savingBill}
-                    className="w-full bg-gradient-to-r from-teal-500 to-emerald-400 hover:from-teal-600 hover:to-emerald-500 text-slate-950 font-bold py-3.5 px-4 rounded-2xl transition-all shadow-lg shadow-teal-500/10 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2 text-base"
+                    className="w-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold py-2 px-4 rounded-lg transition-all active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-1.5 text-xs"
                   >
                     {savingBill ? (
                       <>
-                        <span className="animate-spin text-lg">⏳</span> Đang lưu vào Neon DB...
+                        <span className="animate-spin text-xs">⏳</span> Đang lưu...
                       </>
                     ) : (
                       <>💾 Lưu Kết Quả Phân Bổ</>
@@ -459,7 +458,7 @@ export default function ElectricitySplitter() {
                   </button>
                   {saveStatus && (
                     <div
-                      className={`text-center py-2 px-3 rounded-xl text-xs font-semibold border ${
+                      className={`text-center py-1.5 px-3 rounded-lg text-xs font-semibold border ${
                         saveStatus.success
                           ? "bg-emerald-950/20 text-emerald-400 border-emerald-500/20"
                           : "bg-rose-950/20 text-rose-400 border-rose-500/20"
@@ -473,18 +472,18 @@ export default function ElectricitySplitter() {
             </div>
 
             {/* EVN Tariff reference panel */}
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
-              <h3 className="text-sm font-bold text-slate-200 uppercase tracking-wider mb-4 flex items-center gap-2">
+            <div className="bg-slate-900/40 border border-slate-850 rounded-xl p-5 shadow-sm">
+              <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider mb-3.5 flex items-center gap-1.5">
                 <span>📋</span> Biểu giá bán lẻ điện sinh hoạt EVN
               </h3>
               <div className="space-y-2 font-mono text-xs">
                 {EVN_TIERS.map((tier) => (
                   <div
                     key={tier.level}
-                    className="flex justify-between items-center py-1.5 border-b border-slate-800 last:border-0"
+                    className="flex justify-between items-center py-1.5 border-b border-slate-850 last:border-0"
                   >
                     <span className="text-slate-400">{tier.label}</span>
-                    <span className="font-bold text-teal-400">
+                    <span className="font-bold text-teal-405">
                       {tier.price.toLocaleString("vi-VN")} đ/kWh
                     </span>
                   </div>
@@ -497,37 +496,35 @@ export default function ElectricitySplitter() {
           </div>
 
           {/* Right Column: Calculations & Results */}
-          <div className="lg:col-span-7 space-y-6">
-            {/* Unified Calculation & Audit Table Card */}
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 h-40 w-40 bg-violet-500/5 rounded-full blur-3xl pointer-events-none"></div>
-
-              <div className="flex items-center justify-between mb-5">
-                <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
+          <div className="lg:col-span-7 space-y-5">
+            {/* Unified Calculation & Audit Table Card (Flat Design) */}
+            <div className="bg-slate-900/40 border border-slate-850 rounded-xl p-5 shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-sm font-bold text-slate-100 flex items-center gap-1.5">
                   <span>📊</span> Bảng Phân Bổ & Đối Soát Điện Bậc Thang Chi Tiết
                 </h2>
                 <button
                   onClick={handleCopyZalo}
-                  className="bg-slate-800 hover:bg-slate-700 hover:text-white text-slate-300 font-semibold px-4 py-2 rounded-xl text-xs sm:text-sm border border-slate-700 transition-all flex items-center gap-1.5 active:scale-95"
+                  className="bg-slate-950 hover:bg-slate-850 hover:text-slate-100 text-slate-300 font-medium px-3 py-1.5 rounded-lg text-xs border border-slate-850 transition-all flex items-center gap-1.5 active:scale-[0.98]"
                 >
                   <span>💬</span> Zalo Copy
                 </button>
               </div>
 
               {/* Visual Split Graph */}
-              <div className="space-y-4 mb-6">
+              <div className="space-y-3.5 mb-5">
                 <div>
-                  <div className="flex justify-between text-xs text-slate-400 mb-1.5">
+                  <div className="flex justify-between text-[11px] text-slate-400 mb-1">
                     <span>Tỷ lệ phân chia Điện tiêu thụ (kWh)</span>
                     <span>
                       Trệt: {tretPctKwh.toFixed(0)}% | Lầu: {lauPctKwh.toFixed(0)}%
                       {results.lossKwh > 0 && ` | Hao hụt: ${lossPctKwh.toFixed(0)}%`}
                     </span>
                   </div>
-                  <div className="h-3 w-full bg-slate-950 rounded-full flex overflow-hidden p-0.5 border border-slate-800">
+                  <div className="h-2 w-full bg-slate-950 rounded-full flex overflow-hidden p-0.5 border border-slate-850">
                     <div
                       style={{ width: `${tretPctKwh}%` }}
-                      className="bg-gradient-to-r from-teal-500 to-teal-400 rounded-full transition-all duration-500"
+                      className="bg-teal-500 rounded-full transition-all duration-500"
                     ></div>
                     <div
                       style={{ width: `${lauPctKwh}%` }}
@@ -536,23 +533,23 @@ export default function ElectricitySplitter() {
                     {results.lossKwh > 0 && (
                       <div
                         style={{ width: `${lossPctKwh}%` }}
-                        className="bg-amber-500/40 rounded-full transition-all duration-500"
+                        className="bg-amber-500/30 rounded-full transition-all duration-500"
                       ></div>
                     )}
                   </div>
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-xs text-slate-400 mb-1.5">
+                  <div className="flex justify-between text-[11px] text-slate-400 mb-1">
                     <span>Tỷ lệ phân chia Tiền trả (đã gồm VAT)</span>
                     <span>
                       Trệt: {tretPctCost.toFixed(0)}% | Lầu: {lauPctCost.toFixed(0)}%
                     </span>
                   </div>
-                  <div className="h-3 w-full bg-slate-950 rounded-full flex overflow-hidden p-0.5 border border-slate-800">
+                  <div className="h-2 w-full bg-slate-950 rounded-full flex overflow-hidden p-0.5 border border-slate-850">
                     <div
                       style={{ width: `${tretPctCost}%` }}
-                      className="bg-gradient-to-r from-teal-500 to-teal-400 rounded-full transition-all duration-500"
+                      className="bg-teal-500 rounded-full transition-all duration-500"
                     ></div>
                     <div
                       style={{ width: `${lauPctCost}%` }}
@@ -563,27 +560,27 @@ export default function ElectricitySplitter() {
               </div>
 
               {/* Table details */}
-              <div className="overflow-x-auto -mx-6 sm:mx-0">
+              <div className="overflow-x-auto -mx-5 sm:mx-0">
                 <table className="w-full border-collapse text-left text-xs sm:text-sm whitespace-nowrap min-w-[650px]">
                   <thead>
-                    <tr className="border-b border-slate-800 text-slate-400 font-semibold text-[11px] tracking-wider uppercase bg-slate-950/40">
-                      <th className="py-3 px-4">Bậc Điện / Khoản Mục</th>
-                      <th className="py-3 px-4 text-center">Đơn Giá</th>
-                      <th className="py-3 px-4 text-right">
+                    <tr className="border-b border-slate-850 text-slate-500 font-bold text-[10px] tracking-wider uppercase bg-slate-950/20">
+                      <th className="py-2.5 px-3">Bậc Điện / Khoản Mục</th>
+                      <th className="py-2.5 px-3 text-center">Đơn Giá</th>
+                      <th className="py-2.5 px-3 text-right">
                         Hộ Trệt
-                        <span className="block text-[10px] text-slate-500 font-normal normal-case">
+                        <span className="block text-[9px] text-slate-500 font-normal normal-case">
                           Dùng: {kwhTret.toFixed(1)} kWh
                         </span>
                       </th>
-                      <th className="py-3 px-4 text-right">
+                      <th className="py-2.5 px-3 text-right">
                         Hộ Lầu
-                        <span className="block text-[10px] text-slate-500 font-normal normal-case">
+                        <span className="block text-[9px] text-slate-500 font-normal normal-case">
                           Dùng: {kwhLau.toFixed(1)} kWh
                         </span>
                       </th>
-                      <th className="py-3 px-4 text-right">
+                      <th className="py-2.5 px-3 text-right">
                         Tổng Hóa Đơn
-                        <span className="block text-[10px] text-slate-500 font-normal normal-case">
+                        <span className="block text-[9px] text-slate-500 font-normal normal-case">
                           Dùng: {results.inputTotalKwh.toFixed(1)} kWh
                         </span>
                       </th>
@@ -609,47 +606,47 @@ export default function ElectricitySplitter() {
                             const mainDist = getTierData(mainRaw.tierDistribution, tier.level);
 
                             return (
-                              <tr key={tier.level} className="hover:bg-slate-800/10 transition-colors">
-                                <td className="py-3.5 px-4">
-                                  <div className="font-semibold text-slate-200">{tier.label}</div>
+                              <tr key={tier.level} className="hover:bg-slate-900/10 transition-colors">
+                                <td className="py-2.5 px-3">
+                                  <div className="font-medium text-slate-350">{tier.label}</div>
                                 </td>
-                                <td className="py-3.5 px-4 text-center font-mono text-teal-400 font-medium">
+                                <td className="py-2.5 px-3 text-center font-mono text-teal-400/90 text-xs">
                                   {tier.price.toLocaleString("vi-VN")} đ
                                 </td>
                                 
                                 {/* Hộ Trệt */}
-                                <td className="py-3.5 px-4 text-right">
+                                <td className="py-2.5 px-3 text-right">
                                   {tretDist.kwhAllocated > 0 ? (
                                     <div className={getTretTierClass(tier.level, tretDist.kwhAllocated)}>
-                                      <span className="text-xs font-bold">{tretDist.kwhAllocated.toFixed(1)} kWh</span>
-                                      <span className="text-[10px] opacity-80">{formatVND(tretDist.cost)}</span>
+                                      <span className="text-[11px] font-bold">{tretDist.kwhAllocated.toFixed(1)} kWh</span>
+                                      <span className="text-[9px] opacity-75">{formatVND(tretDist.cost)}</span>
                                     </div>
                                   ) : (
-                                    <span className="text-slate-600 opacity-40 font-mono text-xs">—</span>
+                                    <span className="text-slate-600 opacity-30 font-mono text-[11px]">—</span>
                                   )}
                                 </td>
 
                                 {/* Hộ Lầu */}
-                                <td className="py-3.5 px-4 text-right">
+                                <td className="py-2.5 px-3 text-right">
                                   {lauDist.kwhAllocated > 0 ? (
                                     <div className={getLauTierClass(tier.level, lauDist.kwhAllocated)}>
-                                      <span className="text-xs font-bold">{lauDist.kwhAllocated.toFixed(1)} kWh</span>
-                                      <span className="text-[10px] opacity-80">{formatVND(lauDist.cost)}</span>
+                                      <span className="text-[11px] font-bold">{lauDist.kwhAllocated.toFixed(1)} kWh</span>
+                                      <span className="text-[9px] opacity-75">{formatVND(lauDist.cost)}</span>
                                     </div>
                                   ) : (
-                                    <span className="text-slate-600 opacity-40 font-mono text-xs">—</span>
+                                    <span className="text-slate-600 opacity-30 font-mono text-[11px]">—</span>
                                   )}
                                 </td>
 
                                 {/* Tổng Hóa Đơn */}
-                                <td className="py-3.5 px-4 text-right">
+                                <td className="py-2.5 px-3 text-right">
                                   {mainDist.kwhAllocated > 0 ? (
                                     <div className={getMainTierClass(tier.level, mainDist.kwhAllocated)}>
-                                      <span className="text-xs font-semibold text-slate-200">{mainDist.kwhAllocated.toFixed(1)} kWh</span>
-                                      <span className="text-[10px] text-slate-400">{formatVND(mainDist.cost)}</span>
+                                      <span className="text-[11px] font-semibold text-slate-350">{mainDist.kwhAllocated.toFixed(1)} kWh</span>
+                                      <span className="text-[9px] text-slate-500">{formatVND(mainDist.cost)}</span>
                                     </div>
                                   ) : (
-                                    <span className="text-slate-600 opacity-40 font-mono text-xs">—</span>
+                                    <span className="text-slate-600 opacity-30 font-mono text-[11px]">—</span>
                                   )}
                                 </td>
                               </tr>
@@ -657,67 +654,67 @@ export default function ElectricitySplitter() {
                           })}
 
                           {/* Summary Divider Header */}
-                          <tr className="bg-slate-950/40 text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider">
-                            <td colSpan={5} className="py-2.5 px-4 border-t border-slate-800">
+                          <tr className="bg-slate-950/20 text-[9px] font-bold text-slate-500 uppercase tracking-wider">
+                            <td colSpan={5} className="py-2 px-3 border-t border-slate-850">
                               Cộng dồn & Phân bổ chi tiết
                             </td>
                           </tr>
 
                           {/* Row 1: Tổng số kWh dùng thực tế */}
-                          <tr className="hover:bg-slate-800/10 transition-colors font-semibold">
-                            <td className="py-3 px-4 text-slate-300">Tổng kWh dùng thực tế</td>
-                            <td className="py-3 px-4 text-center">—</td>
-                            <td className="py-3 px-4 text-right text-teal-400 font-mono">
+                          <tr className="hover:bg-slate-900/10 transition-colors text-slate-300">
+                            <td className="py-2.5 px-3">Tổng kWh dùng thực tế</td>
+                            <td className="py-2.5 px-3 text-center">—</td>
+                            <td className="py-2.5 px-3 text-right text-teal-400 font-mono font-medium">
                               {kwhTret.toFixed(1)} kWh
                             </td>
-                            <td className="py-3 px-4 text-right text-violet-400 font-mono">
+                            <td className="py-2.5 px-3 text-right text-violet-400 font-mono font-medium">
                               {kwhLau.toFixed(1)} kWh
                             </td>
-                            <td className="py-3 px-4 text-right text-slate-200 font-mono">
+                            <td className="py-2.5 px-3 text-right text-slate-350 font-mono font-medium">
                               {(kwhTret + kwhLau).toFixed(1)} kWh
                             </td>
                           </tr>
 
                           {/* Row 2: Thành tiền dùng thô (trước VAT) */}
-                          <tr className="hover:bg-slate-800/10 transition-colors text-slate-400">
-                            <td className="py-3 px-4">Thành tiền tiêu thụ thô (chưa VAT)</td>
-                            <td className="py-3 px-4 text-center">—</td>
-                            <td className="py-3 px-4 text-right font-mono">
+                          <tr className="hover:bg-slate-900/10 transition-colors text-slate-400">
+                            <td className="py-2.5 px-3 text-xs">Thành tiền tiêu thụ thô (chưa VAT)</td>
+                            <td className="py-2.5 px-3 text-center">—</td>
+                            <td className="py-2.5 px-3 text-right font-mono text-xs">
                               {formatVND(tretRaw.totalRawCost)}
                             </td>
-                            <td className="py-3 px-4 text-right font-mono">
+                            <td className="py-2.5 px-3 text-right font-mono text-xs">
                               {formatVND(lauRaw.totalRawCost)}
                             </td>
-                            <td className="py-3 px-4 text-right font-mono font-semibold">
+                            <td className="py-2.5 px-3 text-right font-mono font-medium text-xs">
                               {formatVND(tretRaw.totalRawCost + lauRaw.totalRawCost)}
                             </td>
                           </tr>
 
                           {/* Row 3: Hao hụt & Lệch bậc */}
-                          <tr className="hover:bg-slate-800/10 transition-colors text-amber-400/90 font-medium bg-amber-500/5">
-                            <td className="py-3 px-4">
+                          <tr className="hover:bg-slate-900/10 transition-colors text-amber-500/80 bg-amber-500/[0.02]">
+                            <td className="py-2.5 px-3 text-xs">
                               <span className="flex items-center gap-1">📉 Bù hao hụt & lệch bậc</span>
                             </td>
-                            <td className="py-3 px-4 text-center font-mono">
+                            <td className="py-2.5 px-3 text-center font-mono text-xs">
                               {results.lossKwh > 0 ? `+${results.lossKwh.toFixed(1)} kWh` : "0 kWh"}
                             </td>
-                            <td className="py-3 px-4 text-right font-mono text-xs">
+                            <td className="py-2.5 px-3 text-right font-mono text-xs">
                               <div>+{formatVND(results.households[0].lossCostShareBeforeVat)}</div>
                               {results.lossKwh > 0 && (
-                                <div className="text-[10px] text-slate-500 font-normal">
+                                <div className="text-[9px] text-slate-600 font-normal">
                                   Gánh +{results.households[0].lossKwhShare.toFixed(1)} kWh
                                 </div>
                               )}
                             </td>
-                            <td className="py-3 px-4 text-right font-mono text-xs">
+                            <td className="py-2.5 px-3 text-right font-mono text-xs">
                               <div>+{formatVND(results.households[1].lossCostShareBeforeVat)}</div>
                               {results.lossKwh > 0 && (
-                                <div className="text-[10px] text-slate-500 font-normal">
+                                <div className="text-[9px] text-slate-600 font-normal">
                                   Gánh +{results.households[1].lossKwhShare.toFixed(1)} kWh
                                 </div>
                               )}
                             </td>
-                            <td className="py-3 px-4 text-right font-mono font-semibold text-xs">
+                            <td className="py-2.5 px-3 text-right font-mono font-medium text-xs">
                               <div>
                                 +{formatVND(
                                   results.households[0].allocatedBeforeVat +
@@ -729,16 +726,16 @@ export default function ElectricitySplitter() {
                           </tr>
 
                           {/* Row 4: Tổng trước VAT */}
-                          <tr className="hover:bg-slate-800/10 transition-colors bg-slate-900/20 font-bold border-t border-slate-800">
-                            <td className="py-3.5 px-4 text-slate-200">Tổng cộng Chưa VAT</td>
-                            <td className="py-3.5 px-4 text-center">—</td>
-                            <td className="py-3.5 px-4 text-right text-slate-200 font-mono">
+                          <tr className="hover:bg-slate-900/10 transition-colors bg-slate-950/20 font-semibold border-t border-slate-850">
+                            <td className="py-2.5 px-3 text-slate-200 text-xs">Tổng cộng Chưa VAT</td>
+                            <td className="py-2.5 px-3 text-center">—</td>
+                            <td className="py-2.5 px-3 text-right text-slate-200 font-mono text-xs">
                               {formatVND(results.households[0].allocatedBeforeVat)}
                             </td>
-                            <td className="py-3.5 px-4 text-right text-slate-200 font-mono">
+                            <td className="py-2.5 px-3 text-right text-slate-200 font-mono text-xs">
                               {formatVND(results.households[1].allocatedBeforeVat)}
                             </td>
-                            <td className="py-3.5 px-4 text-right text-slate-200 font-mono">
+                            <td className="py-2.5 px-3 text-right text-slate-200 font-mono text-xs">
                               {formatVND(
                                 results.households[0].allocatedBeforeVat +
                                   results.households[1].allocatedBeforeVat
@@ -747,16 +744,16 @@ export default function ElectricitySplitter() {
                           </tr>
 
                           {/* Row 5: Thuế VAT 8% */}
-                          <tr className="hover:bg-slate-800/10 transition-colors text-slate-400">
-                            <td className="py-3 px-4">Thuế VAT (8%)</td>
-                            <td className="py-3 px-4 text-center">—</td>
-                            <td className="py-3 px-4 text-right font-mono">
+                          <tr className="hover:bg-slate-900/10 transition-colors text-slate-400">
+                            <td className="py-2.5 px-3 text-xs">Thuế VAT (8%)</td>
+                            <td className="py-2.5 px-3 text-center">—</td>
+                            <td className="py-2.5 px-3 text-right font-mono text-xs">
                               {formatVND(results.households[0].allocatedVat)}
                             </td>
-                            <td className="py-3 px-4 text-right font-mono">
+                            <td className="py-2.5 px-3 text-right font-mono text-xs">
                               {formatVND(results.households[1].allocatedVat)}
                             </td>
-                            <td className="py-3 px-4 text-right font-mono font-semibold">
+                            <td className="py-2.5 px-3 text-right font-mono font-medium text-xs">
                               {formatVND(
                                 results.households[0].allocatedVat + results.households[1].allocatedVat
                               )}
@@ -764,18 +761,18 @@ export default function ElectricitySplitter() {
                           </tr>
 
                           {/* Row 6: TỔNG THANH TOÁN (SAU VAT) */}
-                          <tr className="bg-slate-950/60 font-bold text-sm sm:text-base border-t border-slate-700">
-                            <td className="py-4 px-4 text-slate-100 uppercase tracking-wide">
+                          <tr className="bg-slate-950/50 font-bold border-t border-slate-850">
+                            <td className="py-3 px-3 text-slate-100 uppercase tracking-wide text-xs">
                               Tổng cộng Phải Trả
                             </td>
-                            <td className="py-4 px-4 text-center">—</td>
-                            <td className="py-4 px-4 text-right text-teal-400 font-mono text-sm sm:text-lg">
+                            <td className="py-3 px-3 text-center">—</td>
+                            <td className="py-3 px-3 text-right text-teal-400 font-mono text-sm sm:text-base">
                               {formatVND(results.households[0].allocatedTotal)}
                             </td>
-                            <td className="py-4 px-4 text-right text-violet-400 font-mono text-sm sm:text-lg">
+                            <td className="py-3 px-3 text-right text-violet-400 font-mono text-sm sm:text-base">
                               {formatVND(results.households[1].allocatedTotal)}
                             </td>
-                            <td className="py-4 px-4 text-right text-white font-mono text-base sm:text-xl underline decoration-teal-500 decoration-2 underline-offset-4">
+                            <td className="py-3 px-3 text-right text-white font-mono text-sm sm:text-lg underline decoration-teal-500 decoration-2 underline-offset-4">
                               {formatVND(results.inputTotalBill)}
                             </td>
                           </tr>
@@ -787,59 +784,59 @@ export default function ElectricitySplitter() {
               </div>
             </div>
 
-            {/* Neon DB Bill History section */}
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+            {/* Neon DB Bill History section (Flat) */}
+            <div className="bg-slate-900/40 border border-slate-855 rounded-xl p-5 shadow-sm">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
+                <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
                   <span>📂</span> Lịch Sử Lưu Trữ Hóa Đơn
                 </h3>
                 <button
                   onClick={loadBillHistory}
-                  className="text-xs text-teal-400 hover:text-teal-300 font-semibold flex items-center gap-1 active:scale-95"
+                  className="text-xs text-teal-400 hover:text-teal-350 font-semibold flex items-center gap-1 active:scale-[0.98]"
                 >
                   🔄 Tải lại
                 </button>
               </div>
 
               {loadingHistory ? (
-                <div className="py-8 text-center text-slate-500 text-xs">
-                  <span className="animate-spin inline-block mr-2">⏳</span> Đang tải lịch sử...
+                <div className="py-6 text-center text-slate-500 text-xs">
+                  <span className="animate-spin inline-block mr-1">⏳</span> Đang tải...
                 </div>
               ) : savedBills.length === 0 ? (
-                <div className="py-8 text-center text-slate-500 text-xs border border-dashed border-slate-800 rounded-2xl bg-slate-950/30">
-                  Chưa có hóa đơn nào được lưu. Bấm "Lưu Kết Quả Phân Bổ" ở trên để ghi lại.
+                <div className="py-6 text-center text-slate-505 text-xs border border-dashed border-slate-855 rounded-lg bg-slate-950/20">
+                  Chưa có hóa đơn nào được lưu.
                 </div>
               ) : (
-                <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1">
+                <div className="space-y-2.5 max-h-[300px] overflow-y-auto pr-1">
                   {savedBills.map((bill) => {
                     const tretUsage = bill.usages.find((u) => u.householdName === "Hộ Trệt");
                     const lauUsage = bill.usages.find((u) => u.householdName === "Hộ Lầu");
                     return (
                       <div
                         key={bill.id}
-                        className="bg-slate-950 p-4 rounded-2xl border border-slate-850 flex items-center justify-between gap-3 text-xs sm:text-sm hover:border-slate-700 transition-all group"
+                        className="bg-slate-950 p-3 rounded-lg border border-slate-850 flex items-center justify-between gap-3 text-xs sm:text-sm hover:border-slate-805 transition-all group"
                       >
                         <div className="space-y-1">
                           <div className="flex items-center gap-2">
-                            <span className="font-bold text-slate-100">
+                            <span className="font-bold text-slate-200 text-xs sm:text-sm">
                               Tháng {bill.month}
                             </span>
-                            <span className="text-[10px] text-slate-500 font-mono">
+                            <span className="text-[9px] text-slate-500 font-mono">
                               ({bill.createdAt.toLocaleDateString("vi-VN")})
                             </span>
                           </div>
-                          <div className="text-slate-400 text-xs flex flex-wrap gap-x-4">
+                          <div className="text-slate-400 text-[11px] flex flex-wrap gap-x-3 gap-y-0.5">
                             <span>
-                              Tổng: <strong className="text-slate-200">{bill.totalKwh} kWh</strong> |{" "}
-                              <strong className="text-slate-200">{formatVND(bill.totalAmount)}</strong>
+                              Tổng: <strong className="text-slate-350 font-semibold">{bill.totalKwh} kWh</strong> |{" "}
+                              <strong className="text-slate-350 font-semibold">{formatVND(bill.totalAmount)}</strong>
                             </span>
                             {tretUsage && (
-                              <span className="text-teal-400 font-medium">
+                              <span className="text-teal-400/90 font-medium">
                                 Trệt: {tretUsage.kwhUsed} kWh
                               </span>
                             )}
                             {lauUsage && (
-                              <span className="text-violet-400 font-medium">
+                              <span className="text-violet-400/90 font-medium">
                                 Lầu: {lauUsage.kwhUsed} kWh
                               </span>
                             )}
@@ -847,7 +844,7 @@ export default function ElectricitySplitter() {
                         </div>
                         <button
                           onClick={() => handleDeleteBill(bill.id, bill.month)}
-                          className="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-all opacity-100 sm:opacity-0 group-hover:opacity-100"
+                          className="p-1.5 rounded-md text-slate-505 hover:text-rose-450 hover:bg-rose-500/5 transition-all opacity-100 sm:opacity-0 group-hover:opacity-100"
                           title="Xóa hóa đơn này"
                         >
                           🗑️
@@ -864,7 +861,7 @@ export default function ElectricitySplitter() {
 
       {/* Floating Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 border border-slate-700 text-slate-200 px-5 py-3 rounded-2xl shadow-2xl text-sm font-semibold max-w-sm border-l-4 border-l-teal-500 animate-slide-in">
+        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 border border-slate-850 text-slate-200 px-4 py-2.5 rounded-lg shadow-lg text-xs font-semibold max-w-sm border-l-2 border-l-teal-500 animate-slide-in">
           {toastMessage}
         </div>
       )}
