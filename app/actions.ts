@@ -18,31 +18,29 @@ export interface SaveBillInput {
  */
 export async function saveBillAction(input: SaveBillInput) {
   try {
-    await db.transaction(async (tx) => {
-      // 1. Insert the main bill row
-      const [insertedBill] = await tx
-        .insert(bills)
-        .values({
-          month: input.month,
-          totalAmount: input.totalAmount,
-          totalKwh: String(input.totalKwh),
-        })
-        .returning({ id: bills.id });
+    // 1. Insert the main bill row
+    const [insertedBill] = await db
+      .insert(bills)
+      .values({
+        month: input.month,
+        totalAmount: input.totalAmount,
+        totalKwh: String(input.totalKwh),
+      })
+      .returning({ id: bills.id });
 
-      // 2. Insert the sub-meter usage rows linked to the main bill
-      await tx.insert(householdUsage).values([
-        {
-          billId: insertedBill.id,
-          householdName: "Hộ Trệt",
-          kwhUsed: String(input.kwhTret),
-        },
-        {
-          billId: insertedBill.id,
-          householdName: "Hộ Lầu",
-          kwhUsed: String(input.kwhLau),
-        },
-      ]);
-    });
+    // 2. Insert the sub-meter usage rows linked to the main bill
+    await db.insert(householdUsage).values([
+      {
+        billId: insertedBill.id,
+        householdName: "Hộ Trệt",
+        kwhUsed: String(input.kwhTret),
+      },
+      {
+        billId: insertedBill.id,
+        householdName: "Hộ Lầu",
+        kwhUsed: String(input.kwhLau),
+      },
+    ]);
 
     revalidatePath("/");
     return { success: true };
