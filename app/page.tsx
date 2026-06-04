@@ -30,6 +30,23 @@ export default function ElectricitySplitter() {
   const [kwhLau, setKwhLau] = useState<number>(421);
   const [autoCalcKwh, setAutoCalcKwh] = useState<boolean>(false);
 
+  // Keep track of the initial month to detect if switching to a new month
+  const [initialMonth] = useState(() => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+  });
+
+  // Automatically clear default loaded values when switching months
+  useEffect(() => {
+    if (month !== initialMonth) {
+      setTotalAmount(0);
+      setTotalKwh(0);
+      setKwhTret(0);
+      setKwhLau(0);
+      setAutoCalcKwh(false);
+    }
+  }, [month, initialMonth]);
+
   // DB integration state
   const [savedBills, setSavedBills] = useState<SavedBill[]>([]);
   const [loadingHistory, setLoadingHistory] = useState<boolean>(true);
@@ -244,7 +261,20 @@ export default function ElectricitySplitter() {
                 <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
                   <span>📥</span> Nhập Số Liệu Hóa Đơn
                 </h2>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => {
+                      setTotalAmount(0);
+                      setTotalKwh(0);
+                      setKwhTret(0);
+                      setKwhLau(0);
+                      setAutoCalcKwh(false);
+                    }}
+                    className="text-xs text-slate-400 hover:text-rose-400 transition-colors font-semibold flex items-center gap-1 active:scale-95 px-2 py-1 rounded-lg bg-slate-800/40 hover:bg-rose-500/10 border border-slate-700/50"
+                    title="Xóa dữ liệu đang nhập"
+                  >
+                    🗑️ Xóa nhập liệu
+                  </button>
                   <input
                     type="month"
                     value={month}
@@ -662,7 +692,7 @@ export default function ElectricitySplitter() {
             <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-                  <span>📂</span> Lịch Sử Lưu Trữ Hóa Đơn (Neon PG)
+                  <span>📂</span> Lịch Sử Lưu Trữ Hóa Đơn
                 </h3>
                 <button
                   onClick={loadBillHistory}
