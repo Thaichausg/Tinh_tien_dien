@@ -430,13 +430,13 @@ export default function ElectricitySplitter() {
     const tret = results.households[0];
     const lau = results.households[1];
 
-    const message = `⚡ BÁO CÁO PHÂN BỔ TIỀN ĐIỆN (${formattedMonth}) ⚡
------------------------------------------
+    const message = `⚡ BÁO CÁO TIỀN ĐIỆN (${formattedMonth}) ⚡
+-------------------------
 • Tổng tiền bill: ${formatVND(totalAmount)}
 • Điện tiêu thụ: ${totalKwh} kWh
 • Hao hụt: ${formatKwhValue(results.lossKwh)} kWh
 
-=========================================
+=========================
 1. HỘ TRỆT:
    - Số điện: ${tret.kwhUsed} kWh
    👉 TỔNG CỘNG: ${formatVND(tret.allocatedTotal)}
@@ -447,7 +447,7 @@ export default function ElectricitySplitter() {
    👉 TỔNG CỘNG: ${formatVND(lau.allocatedTotal)}
    - Đơn giá TB: ${lau.averagePricePerKwh.toLocaleString("vi-VN")} đ/kWh
 
------------------------------------------
+-------------------------
 ✓ Đối soát chênh lệch: 0 đ (Khớp 100%)`;
 
     navigator.clipboard.writeText(message).then(
@@ -836,13 +836,13 @@ export default function ElectricitySplitter() {
               <span className="text-[8px] text-slate-500">(Gồm hao hụt & VAT)</span>
             </div>
             
-            <table className="w-full text-[9px] text-left border-collapse">
+            <table className="w-full text-[8px] border-collapse">
               <thead>
-                <tr className="border-b border-slate-800 text-slate-500 font-bold uppercase text-[8px] tracking-wider">
-                  <th className="py-0.5">Bậc điện (kWh)</th>
-                  <th className="py-0.5 text-right">Đơn giá</th>
-                  <th className="py-0.5 text-right text-teal-400">Trệt</th>
-                  <th className="py-0.5 text-right text-violet-400">Lầu</th>
+                <tr className="border-b border-slate-800 text-slate-500 font-bold uppercase text-[7px] tracking-wider">
+                  <th className="py-1 w-[35%]">Bậc điện</th>
+                  <th className="py-1 text-right w-[15%] text-slate-400">Đơn giá</th>
+                  <th className="py-1 text-right w-[25%] text-teal-400">Trệt</th>
+                  <th className="py-1 text-right w-[25%] text-violet-400">Lầu</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-850 font-mono">
@@ -864,83 +864,89 @@ export default function ElectricitySplitter() {
                         if (totalTierKwh === 0) return null;
 
                         return (
-                          <tr key={tier.level} className="hover:bg-slate-850/30">
-                            <td className="py-0.5 text-slate-350 font-sans">
-                              <div className="text-[8px] text-slate-400">
-                                <span className="font-bold">Bậc {tier.level}</span>{" "}
-                                <span className="text-slate-500">({(() => {
+                          <tr key={tier.level} className="hover:bg-slate-850/30 transition-colors">
+                            <td className="py-1 font-sans">
+                              <div className="text-[8px]">
+                                <span className="font-bold text-slate-300">B{tier.level}</span>
+                                <span className="text-slate-500 text-[7px] ml-1">({(() => {
                                   const ranges = ["0-50", "51-100", "101-200", "201-300", "301-400", "401+"];
                                   return ranges[tier.level - 1];
                                 })()})</span>
                               </div>
                             </td>
-                            <td className="py-0.5 text-right text-slate-300 font-mono">
-                              <div className="text-[8px]">{tier.price.toLocaleString("vi-VN")}đ</div>
+                            <td className="py-1 text-right font-mono">
+                              <div className="text-[7px] text-slate-400">{tier.price.toLocaleString("vi-VN")}</div>
                             </td>
-                            <td className="py-0.5 text-right text-teal-400">
+                            <td className="py-1 text-right text-teal-400">
                               {tretDist.kwhAllocated > 0 ? (
-                                <div className="text-[8px]">
-                                  <span className="font-bold">{formatKwhValue(tretDist.kwhAllocated)}</span>
-                                  <span className="text-[7px] text-slate-500 ml-0.5">{tretDist.cost.toLocaleString("vi-VN")}đ</span>
+                                <div>
+                                  <div className="font-bold text-[8px]">{formatKwhValue(tretDist.kwhAllocated)}</div>
+                                  <div className="text-[7px] text-slate-500 mt-0.5">{tretDist.cost.toLocaleString("vi-VN")}</div>
                                 </div>
-                              ) : <span className="text-slate-700/40 text-[8px]">—</span>}
+                              ) : <span className="text-slate-700/40 text-[7px]">—</span>}
                             </td>
-                            <td className="py-0.5 text-right text-violet-400">
+                            <td className="py-1 text-right text-violet-400">
                               {lauDist.kwhAllocated > 0 ? (
-                                <div className="text-[8px]">
-                                  <span className="font-bold">{formatKwhValue(lauDist.kwhAllocated)}</span>
-                                  <span className="text-[7px] text-slate-500 ml-0.5">{lauDist.cost.toLocaleString("vi-VN")}đ</span>
+                                <div>
+                                  <div className="font-bold text-[8px]">{formatKwhValue(lauDist.kwhAllocated)}</div>
+                                  <div className="text-[7px] text-slate-500 mt-0.5">{lauDist.cost.toLocaleString("vi-VN")}</div>
                                 </div>
-                              ) : <span className="text-slate-700/40 text-[8px]">—</span>}
+                              ) : <span className="text-slate-700/40 text-[7px]">—</span>}
                             </td>
                           </tr>
                         );
                       })}
 
                       {/* Summary rows */}
-                      <tr className="bg-slate-950/40 text-[8px] font-bold text-slate-400 border-t border-slate-800">
-                        <td className="py-0.5 font-sans">Tổng kWh</td>
-                        <td className="py-0.5 text-right text-teal-400">{formatKwhValue(kwhTret)}</td>
-                        <td className="py-0.5 text-right text-violet-400">{formatKwhValue(kwhLau)}</td>
+                      <tr className="bg-slate-950/40 text-[8px] font-bold text-slate-400 border-t-2 border-slate-800">
+                        <td className="py-1 font-sans">Tổng kWh</td>
+                        <td className="py-1"></td>
+                        <td className="py-1 text-right text-teal-400">{formatKwhValue(kwhTret)}</td>
+                        <td className="py-1 text-right text-violet-400">{formatKwhValue(kwhLau)}</td>
                       </tr>
 
-                      <tr className="bg-slate-950/40 text-[8px] font-bold text-slate-450">
-                        <td className="py-0.5 font-sans">Tiêu thụ thô</td>
-                        <td className="py-0.5 text-right text-slate-300">{formatVND(tretRaw.totalRawCost)}</td>
-                        <td className="py-0.5 text-right text-slate-300">{formatVND(lauRaw.totalRawCost)}</td>
+                      <tr className="bg-slate-950/40 text-[7px] font-bold text-slate-450">
+                        <td className="py-1 font-sans">Tiêu thụ thô</td>
+                        <td className="py-1"></td>
+                        <td className="py-1 text-right text-slate-300">{formatVND(tretRaw.totalRawCost)}</td>
+                        <td className="py-1 text-right text-slate-300">{formatVND(lauRaw.totalRawCost)}</td>
                       </tr>
 
-                      <tr className="bg-amber-500/[0.02] text-[8px] font-bold text-amber-500 border-y border-amber-500/10">
-                        <td className="py-1 font-sans">
-                          <span>Bù hao hụt</span>
-                          {results.lossKwh > 0 && <span className="block text-[7px] text-amber-500/50 font-normal">{formatKwhValue(results.lossKwh)} kWh</span>}
+                      <tr className="bg-amber-500/[0.03] text-[7px] font-bold text-amber-500 border-y border-amber-500/20">
+                        <td className="py-1.5 font-sans">
+                          <span className="text-[8px]">Bù hao hụt</span>
+                          {results.lossKwh > 0 && <span className="block text-[6px] text-amber-500/60 font-normal mt-0.5">{formatKwhValue(results.lossKwh)} kWh</span>}
                         </td>
-                        <td className="py-1 text-right">
-                          <span className="text-amber-400">+{formatVND(results.households[0].lossCostShareBeforeVat)}</span>
-                          {results.lossKwh > 0 && <span className="block text-[7px] text-amber-555 font-normal">+{formatKwhValue(results.households[0].lossKwhShare)}</span>}
+                        <td className="py-1.5"></td>
+                        <td className="py-1.5 text-right">
+                          <span className="text-amber-400 text-[8px]">+{formatVND(results.households[0].lossCostShareBeforeVat)}</span>
+                          {results.lossKwh > 0 && <span className="block text-[6px] text-amber-500/60 font-normal mt-0.5">+{formatKwhValue(results.households[0].lossKwhShare)}</span>}
                         </td>
-                        <td className="py-1 text-right">
-                          <span className="text-amber-400">+{formatVND(results.households[1].lossCostShareBeforeVat)}</span>
-                          {results.lossKwh > 0 && <span className="block text-[7px] text-amber-555 font-normal">+{formatKwhValue(results.households[1].lossKwhShare)}</span>}
+                        <td className="py-1.5 text-right">
+                          <span className="text-amber-400 text-[8px]">+{formatVND(results.households[1].lossCostShareBeforeVat)}</span>
+                          {results.lossKwh > 0 && <span className="block text-[6px] text-amber-500/60 font-normal mt-0.5">+{formatKwhValue(results.households[1].lossKwhShare)}</span>}
                         </td>
                       </tr>
 
-                      <tr className="bg-slate-900/50 text-[8px] font-bold text-slate-300">
-                        <td className="py-0.5 font-sans">Chưa VAT</td>
-                        <td className="py-0.5 text-right text-slate-200">{formatVND(results.households[0].allocatedBeforeVat)}</td>
-                        <td className="py-0.5 text-right text-slate-200">{formatVND(results.households[1].allocatedBeforeVat)}</td>
+                      <tr className="bg-slate-900/50 text-[7px] font-bold text-slate-300">
+                        <td className="py-1 font-sans">Chưa VAT</td>
+                        <td className="py-1"></td>
+                        <td className="py-1 text-right text-slate-200">{formatVND(results.households[0].allocatedBeforeVat)}</td>
+                        <td className="py-1 text-right text-slate-200">{formatVND(results.households[1].allocatedBeforeVat)}</td>
                       </tr>
 
-                      <tr className="bg-slate-950/40 text-[8px] font-bold text-slate-400">
-                        <td className="py-0.5 font-sans">VAT 8%</td>
-                        <td className="py-0.5 text-right text-slate-350">{formatVND(results.households[0].allocatedVat)}</td>
-                        <td className="py-0.5 text-right text-slate-350">{formatVND(results.households[1].allocatedVat)}</td>
+                      <tr className="bg-slate-950/40 text-[7px] font-bold text-slate-400">
+                        <td className="py-1 font-sans">VAT 8%</td>
+                        <td className="py-1"></td>
+                        <td className="py-1 text-right text-slate-350">{formatVND(results.households[0].allocatedVat)}</td>
+                        <td className="py-1 text-right text-slate-350">{formatVND(results.households[1].allocatedVat)}</td>
                       </tr>
 
-                      <tr className="bg-slate-950/80 font-black border-t border-teal-500/30 text-[9px] text-white">
-                        <td className="py-1 font-sans">💰 Tổng</td>
-                        <td className="py-1 text-right text-teal-400">{formatVND(results.households[0].allocatedTotal)}</td>
-                        <td className="py-1 text-right text-violet-400">{formatVND(results.households[1].allocatedTotal)}</td>
+                      <tr className="bg-slate-950/80 font-black border-t-2 border-teal-500/30 text-[8px] text-white">
+                        <td className="py-1.5 font-sans">💰 Tổng</td>
+                        <td className="py-1.5"></td>
+                        <td className="py-1.5 text-right text-teal-400">{formatVND(results.households[0].allocatedTotal)}</td>
+                        <td className="py-1.5 text-right text-violet-400">{formatVND(results.households[1].allocatedTotal)}</td>
                       </tr>
                     </>
                   );
