@@ -182,7 +182,7 @@ export default function ElectricitySplitter() {
     if (chartData.length < 2) return null;
     const latest = chartData[chartData.length - 1];
     const prev = chartData[chartData.length - 2];
-    
+
     const evalHousehold = (name: "Trệt" | "Lầu") => {
       const diff = latest[name] - prev[name];
       const percent = prev[name] > 0 ? ((diff / prev[name]) * 100).toFixed(1) : 0;
@@ -280,10 +280,10 @@ export default function ElectricitySplitter() {
       triggerToast("Chọn tháng hóa đơn.");
       return;
     }
-    
+
     const formattedMonth = formatDateDisplay(month);
     const hasExisting = savedBills.some((b) => b.month === formattedMonth);
-    
+
     const executeSave = async () => {
       setSavingBill(true);
       const input: SaveBillInput = {
@@ -370,17 +370,17 @@ export default function ElectricitySplitter() {
   const handleLoadBill = (bill: SavedBill) => {
     const [m, y] = bill.month.split("/");
     const formattedMonth = `${y}-${m}`;
-    
+
     setMonth(formattedMonth);
     setTotalAmount(bill.totalAmount);
     setTotalKwh(bill.totalKwh);
-    
+
     const tretUsage = bill.usages.find((u) => u.householdName === "Hộ Trệt")?.kwhUsed || 0;
     const lauUsage = bill.usages.find((u) => u.householdName === "Hộ Lầu")?.kwhUsed || 0;
     setKwhTret(tretUsage);
     setKwhLau(lauUsage);
     setAutoCalcKwh(false);
-    
+
     triggerToast(`Đã tải số liệu tháng ${bill.month} lên bảng tính.`);
   };
 
@@ -430,7 +430,7 @@ export default function ElectricitySplitter() {
     const tret = results.households[0];
     const lau = results.households[1];
 
-    const message = `⚡ BÁO CÁO TIỀN ĐIỆN (${formattedMonth}) ⚡
+    const message = `⚡ BÁO CÁO TIỀN ĐIỆN (${formattedMonth}) 
 -------------------------
 • Tổng tiền bill: ${formatVND(totalAmount)}
 • Điện tiêu thụ: ${totalKwh} kWh
@@ -467,7 +467,7 @@ export default function ElectricitySplitter() {
   return (
     <div ref={containerRef} className="w-full max-w-md mx-auto min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between font-sans selection:bg-teal-500 selection:text-slate-950 shadow-2xl border-x border-slate-900 pb-4 relative overflow-x-hidden">
       {/* Header */}
-      <header className="border-b border-slate-900 bg-slate-950/90 backdrop-blur px-3 py-2.5 sticky top-0 z-50 flex items-center justify-between">
+      <header className="border-b border-slate-900 bg-slate-950/90 backdrop-blur px-3 py-1.5 sticky top-0 z-50 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div ref={iconRef} className="h-7 w-7 rounded-lg bg-teal-500/10 text-teal-400 flex items-center justify-center font-bold border border-teal-500/20 text-xs">
             ⚡
@@ -479,7 +479,7 @@ export default function ElectricitySplitter() {
 
         {/* Month Selector in Header */}
         <div className="flex items-center bg-slate-900 border border-slate-800 rounded-md scale-90 overflow-hidden">
-          <button 
+          <button
             onClick={handlePrevMonth}
             className="px-2 py-0.5 text-slate-400 hover:text-teal-400 active:bg-slate-800 transition-colors"
             title="Tháng trước"
@@ -500,7 +500,7 @@ export default function ElectricitySplitter() {
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             />
           </div>
-          <button 
+          <button
             onClick={handleNextMonth}
             className="px-2 py-0.5 text-slate-400 hover:text-teal-400 active:bg-slate-800 transition-colors"
             title="Tháng sau"
@@ -511,7 +511,7 @@ export default function ElectricitySplitter() {
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1 px-3 py-3 space-y-3">
+      <main className="flex-1 px-3 py-2 space-y-2">
         {/* Verification Alert if failed */}
         {!results.selfTest.passed && (
           <div className="bg-rose-500/5 border border-rose-500/20 rounded-lg p-2 flex items-center justify-between text-rose-400 text-[10px]">
@@ -526,8 +526,8 @@ export default function ElectricitySplitter() {
         )}
 
         {/* Input Forms Card */}
-        <div className="gsap-card bg-slate-900/30 border border-slate-900 rounded-xl p-3 space-y-2.5">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-1.5">
+        <div className="gsap-card bg-slate-900/30 border border-slate-900 rounded-xl p-2 space-y-2">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-1">
             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">📥 Số liệu hóa đơn</span>
             <button
               onClick={() => {
@@ -543,7 +543,7 @@ export default function ElectricitySplitter() {
             </button>
           </div>
 
-          <div className="grid grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-2 gap-2">
             {/* Total Amount */}
             <div className="space-y-0.5">
               <label className="block text-[9px] font-bold text-slate-450 uppercase tracking-wider">
@@ -731,9 +731,8 @@ export default function ElectricitySplitter() {
           {/* Chi tiết */}
           <button
             onClick={() => { setShowDetails(!showDetails); setShowReport(false); setShowHistory(false); setShowExplain(false); }}
-            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg border active:scale-[0.97] transition-all ${
-              showDetails ? "bg-teal-500/10 border-teal-500/40 text-teal-400" : "bg-slate-900 border-slate-800 hover:bg-slate-800 text-slate-400"
-            }`}
+            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg border active:scale-[0.97] transition-all ${showDetails ? "bg-teal-500/10 border-teal-500/40 text-teal-400" : "bg-slate-900 border-slate-800 hover:bg-slate-800 text-slate-400"
+              }`}
           >
             <span className="text-sm mb-0.5">📝</span>
             <span className="text-[9px] font-bold">Chi tiết</span>
@@ -742,9 +741,8 @@ export default function ElectricitySplitter() {
           {/* Báo cáo */}
           <button
             onClick={() => { setShowReport(!showReport); setShowDetails(false); setShowHistory(false); setShowExplain(false); }}
-            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg border active:scale-[0.97] transition-all ${
-              showReport ? "bg-indigo-500/10 border-indigo-500/40 text-indigo-400" : "bg-slate-900 border-slate-800 hover:bg-slate-800 text-slate-400"
-            }`}
+            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg border active:scale-[0.97] transition-all ${showReport ? "bg-indigo-500/10 border-indigo-500/40 text-indigo-400" : "bg-slate-900 border-slate-800 hover:bg-slate-800 text-slate-400"
+              }`}
           >
             <span className="text-sm mb-0.5">📊</span>
             <span className="text-[9px] font-bold">Báo cáo</span>
@@ -753,9 +751,8 @@ export default function ElectricitySplitter() {
           {/* Lịch sử */}
           <button
             onClick={() => { setShowHistory(!showHistory); setShowReport(false); setShowDetails(false); setShowExplain(false); }}
-            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg border active:scale-[0.97] transition-all ${
-              showHistory ? "bg-amber-500/10 border-amber-500/40 text-amber-400" : "bg-slate-900 border-slate-800 hover:bg-slate-800 text-slate-400"
-            }`}
+            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg border active:scale-[0.97] transition-all ${showHistory ? "bg-amber-500/10 border-amber-500/40 text-amber-400" : "bg-slate-900 border-slate-800 hover:bg-slate-800 text-slate-400"
+              }`}
           >
             <span className="text-sm mb-0.5">📂</span>
             <span className="text-[9px] font-bold">Lịch sử</span>
@@ -764,9 +761,8 @@ export default function ElectricitySplitter() {
           {/* Hỏi & Đáp */}
           <button
             onClick={() => { setShowExplain(!showExplain); setShowReport(false); setShowDetails(false); setShowHistory(false); }}
-            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg border active:scale-[0.97] transition-all ${
-              showExplain ? "bg-sky-500/10 border-sky-500/40 text-sky-400" : "bg-slate-900 border-slate-800 hover:bg-slate-800 text-slate-400"
-            }`}
+            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg border active:scale-[0.97] transition-all ${showExplain ? "bg-sky-500/10 border-sky-500/40 text-sky-400" : "bg-slate-900 border-slate-800 hover:bg-slate-800 text-slate-400"
+              }`}
           >
             <span className="text-sm mb-0.5">💡</span>
             <span className="text-[9px] font-bold">Hỏi & Đáp</span>
@@ -780,7 +776,7 @@ export default function ElectricitySplitter() {
               <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400">📊 Biểu đồ & Đánh giá</span>
               <span className="text-[8px] text-slate-500">(Lịch sử qua các tháng)</span>
             </div>
-            
+
             {chartData.length > 0 ? (
               <>
                 <div className="h-40 w-full">
@@ -789,7 +785,7 @@ export default function ElectricitySplitter() {
                       <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
                       <XAxis dataKey="month" tick={{ fontSize: 9, fill: '#94a3b8' }} axisLine={false} tickLine={false} />
                       <YAxis tick={{ fontSize: 9, fill: '#94a3b8' }} axisLine={false} tickLine={false} />
-                      <Tooltip 
+                      <Tooltip
                         contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', fontSize: '10px', color: '#f1f5f9', borderRadius: '6px' }}
                         itemStyle={{ padding: '2px 0' }}
                       />
@@ -799,7 +795,7 @@ export default function ElectricitySplitter() {
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
-                
+
                 {reportEvaluation ? (
                   <div className="bg-slate-950/50 p-2.5 rounded-lg border border-slate-800/80 space-y-2 text-[10px]">
                     <div className="text-[9px] uppercase tracking-wider font-bold text-slate-400">
@@ -835,7 +831,7 @@ export default function ElectricitySplitter() {
               <span className="text-[9px] font-bold uppercase tracking-wider text-teal-400">📝 Chi Tiết Đối Soát</span>
               <span className="text-[8px] text-slate-500">(Gồm hao hụt & VAT)</span>
             </div>
-            
+
             <table className="w-full text-[8px] border-collapse">
               <thead>
                 <tr className="border-b border-slate-800 text-slate-500 font-bold uppercase text-[7px] tracking-wider">
@@ -849,7 +845,7 @@ export default function ElectricitySplitter() {
                 {(() => {
                   const tretRaw = calculateRawEvnCost(kwhTret);
                   const lauRaw = calculateRawEvnCost(kwhLau);
-                  
+
                   const getTierData = (distribution: any[], level: number) => {
                     return distribution.find((d) => d.level === level) || { level, kwhAllocated: 0, cost: 0 };
                   };
@@ -987,7 +983,7 @@ export default function ElectricitySplitter() {
               </div>
               <button onClick={loadBillHistory} className="text-[9px] text-teal-400 font-bold">🔄 Tải lại</button>
             </div>
-            
+
             {loadingHistory ? (
               <div className="py-4 text-center text-slate-500 text-[10px]">⏳ Đang tải...</div>
             ) : sortedBillsForHistory.length === 0 ? (
@@ -997,23 +993,23 @@ export default function ElectricitySplitter() {
                 {sortedBillsForHistory.map((bill) => {
                   const tretUsage = bill.usages.find((u) => u.householdName === "Hộ Trệt");
                   const lauUsage = bill.usages.find((u) => u.householdName === "Hộ Lầu");
-                  
+
                   const billResult = calculateSplit(
-                    bill.totalAmount, 
-                    bill.totalKwh, 
-                    tretUsage?.kwhUsed || 0, 
+                    bill.totalAmount,
+                    bill.totalKwh,
+                    tretUsage?.kwhUsed || 0,
                     lauUsage?.kwhUsed || 0
                   );
                   const tretCost = billResult.households[0].allocatedTotal;
                   const lauCost = billResult.households[1].allocatedTotal;
 
                   return (
-                    <div 
-                      key={bill.id} 
+                    <div
+                      key={bill.id}
                       className="bg-slate-950 rounded-lg border border-slate-850 text-[10px] hover:border-slate-800 overflow-hidden flex flex-col transition-all"
                     >
                       {/* Clickable Header */}
-                      <div 
+                      <div
                         onClick={() => setExpandedBillId(expandedBillId === bill.id ? null : bill.id)}
                         className="p-2.5 flex items-center justify-between cursor-pointer active:bg-slate-900/60 select-none"
                       >
@@ -1039,7 +1035,7 @@ export default function ElectricitySplitter() {
                             <span className="text-teal-400">Trệt: {formatVND(tretCost)} đ ({tretUsage?.kwhUsed || 0} kWh)</span>
                             <span className="text-violet-400">Lầu: {formatVND(lauCost)} đ ({lauUsage?.kwhUsed || 0} kWh)</span>
                           </div>
-                          
+
                           <div className="flex items-center gap-1.5 pt-1.5 border-t border-slate-900/60">
                             <button
                               onClick={(e) => {
@@ -1050,7 +1046,7 @@ export default function ElectricitySplitter() {
                             >
                               <span>💬</span> Copy Zalo
                             </button>
-                            
+
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -1105,9 +1101,9 @@ export default function ElectricitySplitter() {
                 </li>
               </ul>
             </div>
-            
+
             <hr className="border-slate-850" />
-            
+
             {/* Explain Proportional Split */}
             <div>
               <h4 className="text-amber-400 font-bold mb-2 flex items-center gap-1 text-[11px]">
