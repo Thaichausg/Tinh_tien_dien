@@ -543,10 +543,10 @@ export default function ElectricitySplitter() {
             </button>
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-3">
             {/* Total Amount */}
-            <div className="space-y-0.5">
-              <label className="block text-[9px] font-bold text-slate-450 uppercase tracking-wider">
+            <div className="space-y-1.5">
+              <label className="block text-[12px] font-bold text-slate-450 uppercase tracking-wider">
                 Tổng tiền (VND)
               </label>
               <input
@@ -562,17 +562,17 @@ export default function ElectricitySplitter() {
                   }
                 }}
                 placeholder="VD: 2.920.493"
-                className="w-full bg-slate-950 border border-slate-850 hover:border-slate-800 focus:border-teal-500 rounded-lg px-2 py-1.5 text-slate-100 text-xs font-semibold outline-none transition-all placeholder:text-slate-700"
+                className="w-full min-h-[60px] bg-slate-950 border-2 border-slate-850 hover:border-slate-800 focus:border-teal-500 rounded-xl px-4 py-3 text-slate-100 text-2xl font-black outline-none transition-all placeholder:text-slate-700 placeholder:font-black"
               />
             </div>
 
             {/* Total kWh */}
-            <div className="space-y-0.5">
-              <div className="flex justify-between items-center">
-                <label className="block text-[9px] font-bold text-slate-455 uppercase tracking-wider">
+            <div className="space-y-1.5">
+              <div className="flex justify-between items-center gap-2">
+                <label className="block text-[12px] font-bold text-slate-455 uppercase tracking-wider">
                   Tổng kWh
                 </label>
-                <label className="flex items-center gap-0.5 text-[8px] font-bold text-teal-400 cursor-pointer select-none">
+                <label className="flex items-center gap-1 text-[9px] font-bold text-teal-400 cursor-pointer select-none">
                   <input
                     type="checkbox"
                     checked={autoCalcKwh}
@@ -583,7 +583,7 @@ export default function ElectricitySplitter() {
                         setTotalKwh(calculateKwhFromAmount(totalAmount));
                       }
                     }}
-                    className="rounded border-slate-850 bg-slate-950 text-teal-500 focus:ring-0 h-2 w-2 accent-teal-500 cursor-pointer"
+                    className="rounded border-slate-850 bg-slate-950 text-teal-500 focus:ring-0 h-3 w-3 accent-teal-500 cursor-pointer"
                   />
                   Tính số Kw tự động
                 </label>
@@ -596,13 +596,13 @@ export default function ElectricitySplitter() {
                   setAutoCalcKwh(false);
                 }}
                 placeholder="VD: 871"
-                className="w-full bg-slate-950 border border-slate-850 hover:border-slate-800 focus:border-teal-500 rounded-lg px-2 py-1.5 text-slate-100 text-xs font-semibold outline-none transition-all placeholder:text-slate-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                className="w-full min-h-[60px] bg-slate-950 border-2 border-slate-850 hover:border-slate-800 focus:border-teal-500 rounded-xl px-4 py-3 text-slate-100 text-2xl font-black outline-none transition-all placeholder:text-slate-700 placeholder:font-black [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               />
             </div>
 
             {/* Trệt kWh */}
-            <div className="space-y-0.5">
-              <label className="block text-[9px] font-bold text-teal-400 uppercase tracking-wider">
+            <div className="space-y-1.5">
+              <label className="block text-[12px] font-bold text-teal-400 uppercase tracking-wider">
                 Hộ Trệt (kWh)
               </label>
               <input
@@ -610,13 +610,13 @@ export default function ElectricitySplitter() {
                 value={kwhTret || ""}
                 onChange={(e) => setKwhTret(parseFloat(e.target.value) || 0)}
                 placeholder="VD: 350"
-                className="w-full bg-slate-950 border border-slate-850 hover:border-teal-500/40 focus:border-teal-500 rounded-lg px-2 py-1.5 text-teal-400 text-xs font-bold outline-none transition-all placeholder:text-slate-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                className="w-full min-h-[60px] bg-slate-950 border-2 border-slate-850 hover:border-teal-500/40 focus:border-teal-500 rounded-xl px-4 py-3 text-teal-400 text-2xl font-black outline-none transition-all placeholder:text-slate-700 placeholder:font-black [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               />
             </div>
 
             {/* Lầu kWh */}
-            <div className="space-y-0.5">
-              <label className="block text-[9px] font-bold text-violet-400 uppercase tracking-wider">
+            <div className="space-y-1.5">
+              <label className="block text-[12px] font-bold text-violet-400 uppercase tracking-wider">
                 Hộ Lầu (kWh)
               </label>
               <input
@@ -624,7 +624,7 @@ export default function ElectricitySplitter() {
                 value={kwhLau || ""}
                 onChange={(e) => setKwhLau(parseFloat(e.target.value) || 0)}
                 placeholder="VD: 521"
-                className="w-full bg-slate-950 border border-slate-850 hover:border-violet-500/40 focus:border-violet-500 rounded-lg px-2 py-1.5 text-violet-400 text-xs font-bold outline-none transition-all placeholder:text-slate-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                className="w-full min-h-[60px] bg-slate-950 border-2 border-slate-850 hover:border-violet-500/40 focus:border-violet-500 rounded-xl px-4 py-3 text-violet-400 text-2xl font-black outline-none transition-all placeholder:text-slate-700 placeholder:font-black [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               />
             </div>
           </div>
