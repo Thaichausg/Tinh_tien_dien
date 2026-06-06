@@ -17,6 +17,14 @@ export const metadata: Metadata = {
   description: "Ứng dụng phân chia tiền điện sinh hoạt 6 bậc EVN chính xác, nhanh chóng cho hộ gia đình và phòng trọ.",
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
+
 export default function RootLayout({
   children,
 }: Readonly<{
