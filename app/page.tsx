@@ -49,10 +49,10 @@ export default function ElectricitySplitter() {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`; // YYYY-MM
   });
-  const [totalAmount, setTotalAmount] = useState<number>(2920493);
-  const [totalKwh, setTotalKwh] = useState<number>(871);
-  const [kwhTret, setKwhTret] = useState<number>(350);
-  const [kwhLau, setKwhLau] = useState<number>(521);
+  const [totalAmount, setTotalAmount] = useState<number>(0);
+  const [totalKwh, setTotalKwh] = useState<number>(0);
+  const [kwhTret, setKwhTret] = useState<number>(0);
+  const [kwhLau, setKwhLau] = useState<number>(0);
   const [autoCalcKwh, setAutoCalcKwh] = useState<boolean>(false);
 
   // 2. UI and database states
@@ -668,7 +668,7 @@ export default function ElectricitySplitter() {
         </div>
 
         {/* Group 1: Result Action Buttons (directly under result cards) */}
-        <div className="grid grid-cols-3 gap-1.5">
+        <div className="grid grid-cols-2 gap-2">
           {/* Zalo Copy */}
           <button
             onClick={handleCopyZalo}
@@ -676,16 +676,6 @@ export default function ElectricitySplitter() {
           >
             <span className="text-sm mb-0.5">💬</span>
             <span className="text-[9px] font-bold">Zalo Copy</span>
-          </button>
-
-          {/* In bảng tính */}
-          <button
-            onClick={handlePrintImage}
-            disabled={printingBill}
-            className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-900 border border-slate-800 hover:bg-slate-800 active:scale-[0.97] transition-all text-sky-400 disabled:opacity-50"
-          >
-            <span className="text-sm mb-0.5">{printingBill ? "⏳" : "📸"}</span>
-            <span className="text-[9px] font-bold">{printingBill ? "Đang tạo..." : "In bảng tính"}</span>
           </button>
 
           {/* Lưu Lịch Sử */}
