@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "EVN Splitter - Bộ Chia Tiền Điện 6 Bậc",
-  description: "Ứng dụng phân chia tiền điện sinh hoạt 6 bậc EVN chính xác, nhanh chóng cho hộ gia đình và phòng trọ.",
+  title: "Tính tiền điện 2026 - Htc",
+  description: "Ứng dụng tính tiền điện sinh hoạt 6 bậc EVN chính xác, nhanh chóng cho hộ gia đình và phòng trọ.",
 };
 
 export const viewport = {
