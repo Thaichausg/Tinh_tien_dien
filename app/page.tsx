@@ -547,7 +547,7 @@ export default function ElectricitySplitter() {
             {/* Total Amount */}
             <div className="space-y-1.5">
               <label className="block text-[12px] font-bold text-slate-450 uppercase tracking-wider">
-                Tổng tiền (VND)
+                TIỀN ĐIỆN THÁNG
               </label>
               <input
                 type="text"
@@ -572,7 +572,7 @@ export default function ElectricitySplitter() {
                 <label className="block text-[12px] font-bold text-slate-455 uppercase tracking-wider">
                   Tổng kWh
                 </label>
-                <label className="flex items-center gap-1 text-[9px] font-bold text-teal-400 cursor-pointer select-none">
+                <label className="flex items-center gap-1.5 text-[13px] font-black text-teal-400 cursor-pointer select-none whitespace-nowrap">
                   <input
                     type="checkbox"
                     checked={autoCalcKwh}
@@ -583,9 +583,9 @@ export default function ElectricitySplitter() {
                         setTotalKwh(calculateKwhFromAmount(totalAmount));
                       }
                     }}
-                    className="rounded border-slate-850 bg-slate-950 text-teal-500 focus:ring-0 h-3 w-3 accent-teal-500 cursor-pointer"
+                    className="rounded border-slate-850 bg-slate-950 text-teal-500 focus:ring-0 h-4 w-4 accent-teal-500 cursor-pointer"
                   />
-                  Tính số Kw tự động
+                  Tính KWH
                 </label>
               </div>
               <input
