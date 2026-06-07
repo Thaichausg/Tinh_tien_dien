@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#020617">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Offline - Tiền Điện</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #020617;
+      color: #f1f5f9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .icon {
+      font-size: 64px;
+      margin-bottom: 24px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 800;
+      color: #f1f5f9;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    .card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .feature:last-child {
+      border-bottom: none;
+    }
+
+    .feature-icon {
+      font-size: 20px;
+    }
+
+    .feature-text {
+      text-align: left;
+    }
+
+    .feature-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #f1f5f9;
+      margin-bottom: 2px;
+    }
+
+    .feature-desc {
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #0d9488;
+      color: #f1f5f9;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background: #0f766e;
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 24px;
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #64748b;
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    .status-dot.online {
+      background: #22c55e;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    .cached-info {
+      margin-top: 32px;
+      padding: 16px;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      text-align: left;
+    }
+
+    .cached-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #94a3b8;
+      margin-bottom: 8px;
+    }
+
+    .cached-list {
+      font-size: 12px;
+      color: #64748b;
+      line-height: 1.8;
+    }
+
+    .cached-list li {
+      list-style: none;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .cached-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #22c55e;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">📡</div>
+
+    <h1>Không có kết nối</h1>
+    <p class="subtitle">
+      Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối internet của bạn.
+    </p>
+
+    <div class="card">
+      <div class="card-title">Tính năng offline</div>
+
+      <div class="feature">
+        <span class="feature-icon">📋</span>
+        <div class="feature-text">
+          <div class="feature-title">Xem lịch sử hóa đơn</div>
+          <div class="feature-desc">Các tháng đã lưu vẫn xem được</div>
+        </div>
+      </div>
+
+      <div class="feature">
+        <span class="feature-icon">📊</span>
+        <div class="feature-text">
+          <div class="feature-title">Xem biểu đồ</div>
+          <div class="feature-desc">Biểu đồ điện tiêu thụ vẫn hiển thị</div>
+        </div>
+      </div>
+
+      <div class="feature">
+        <span class="feature-icon">💾</span>
+        <div class="feature-text">
+          <div class="feature-title">Ghi số điện</div>
+          <div class="feature-desc">Nhập số kWh, tính toán bình thường</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn" onclick="retry()">
+      🔄 Thử lại
+    </button>
+
+    <div class="status">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusText">Đang kiểm tra kết nối...</span>
+    </div>
+
+    <div class="cached-info">
+      <div class="cached-title">Đã lưu trong bộ nhớ đệm:</div>
+      <ul class="cached-list">
+        <li>Trang chủ và giao diện</li>
+        <li>Dữ liệu hóa đơn đã xem</li>
+        <li>Biểu tượng và hình ảnh</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function retry() {
+      if (navigator.onLine) {
+        window.location.reload();
+      } else {
+        showStatus(false);
+      }
+    }
+
+    function showStatus(isOnline) {
+      const dot = document.getElementById('statusDot');
+      const text = document.getElementById('statusText');
+
+      if (isOnline) {
+        dot.classList.add('online');
+        text.textContent = 'Đã kết nối - Đang tải lại...';
+        setTimeout(() => window.location.reload(), 1000);
+      } else {
+        dot.classList.remove('online');
+        text.textContent = 'Vẫn offline - Vui lòng thử lại sau';
+      }
+    }
+
+    // Listen for online/offline events
+    window.addEventListener('online', () => showStatus(true));
+    window.addEventListener('offline', () => showStatus(false));
+
+    // Initial check
+    if (navigator.onLine) {
+      showStatus(true);
+    }
+
+    // Auto-retry when back online
+    let retryCount = 0;
+    const maxRetries = 5;
+
+    function autoRetry() {
+      if (retryCount >= maxRetries) return;
+
+      if (navigator.onLine) {
+        window.location.reload();
+      } else {
+        retryCount++;
+        setTimeout(autoRetry, 5000);
+      }
+    }
+
+    setTimeout(autoRetry, 10000);
+  </script>
+</body>
+</html>
